@@ -2,15 +2,24 @@
   "name": "saucer",
   "version": "1.0.0",
   "description": "A Layout Editor for Drag and Drop",
+  "private": true,
+  "workspaces": [
+    "website",
+    "packages/*"
+  ],
   "main": "index.js",
   "devDependencies": {
+    "@types/react": "^16.9.56",
+    "@types/react-dom": "^16.9.9",
     "lerna": "^3.22.1",
     "prettier": "^2.1.2",
     "run-p": "0.0.0",
     "typescript": "^4.0.5"
   },
   "scripts": {
-    "postinstall": "lerna bootstrap --hoist",
+    "start": "cd website && yarn start",
+    "bootstrap": "lerna bootstrap",
+    "build:watch": "lerna run build:watch --parallel --scope=@saucer/editor",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -21,7 +30,7 @@
     "layour",
     "editor"
   ],
-  "author": "moonrailgun",
+  "author": "moonrailgun <moonrailgun@gmail.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/moonrailgun/saucer/issues"
