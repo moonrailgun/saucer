@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "incremental": true,
+    "noImplicitAny": true,
+    "target": "es5",
+    "module": "esnext",
+    "lib": ["es2016", "es2015", "es2017", "dom"],
+    "baseUrl": ".",
+    "paths": {
+      "@test-utils/*": ["test-utils/*"]
+    },
+    "moduleResolution": "node",
+    "jsx": "react",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "declaration": true,
+    "experimentalDecorators": true,
+    "skipLibCheck": true
+  }
+}
