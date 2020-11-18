@@ -2,6 +2,7 @@ import React from 'react';
 import { Previewer } from './Previewer';
 import { SaucerEditorProvider } from './Provider';
 import { TemplateMenu } from './TemplateMenu';
+import { Viewport } from './ViewPort';
 
 /**
  * Default Saucer Editor
@@ -10,8 +11,14 @@ import { TemplateMenu } from './TemplateMenu';
 export const SaucerEditor: React.FC = React.memo(() => {
   return (
     <SaucerEditorProvider>
-      <Previewer />
-      <TemplateMenu />
+      <div className="default-saucer-editor">
+        <div className="saucer-editor-template-menu">
+          <TemplateMenu />
+        </div>
+        <div className="saucer-editor-viewport">
+          <Viewport />
+        </div>
+      </div>
     </SaucerEditorProvider>
   );
 });
