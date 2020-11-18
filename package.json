@@ -4,13 +4,14 @@
   "description": "A Layout Editor for Drag and Drop",
   "private": true,
   "workspaces": [
-    "website",
-    "packages/*"
+    "packages/*",
+    "website"
   ],
   "main": "index.js",
   "devDependencies": {
     "@types/react": "^16.9.56",
     "@types/react-dom": "^16.9.9",
+    "@types/react-redux": "^7.1.11",
     "lerna": "^3.22.1",
     "prettier": "^2.1.2",
     "run-p": "0.0.0",
@@ -19,7 +20,7 @@
   "scripts": {
     "start": "cd website && yarn start",
     "bootstrap": "lerna bootstrap",
-    "build:watch": "lerna run build:watch --parallel --scope=@saucer/editor",
+    "build:watch": "lerna run build:watch --parallel --scope=@saucer/core --scope=@saucer/editor",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

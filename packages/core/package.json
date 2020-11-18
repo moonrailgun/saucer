@@ -1,9 +1,9 @@
 {
-  "name": "@saucer/editor",
+  "name": "@saucer/core",
   "version": "0.0.0",
   "description": "> TODO: description",
   "author": "moonrailgun <moonrailgun@gmail.com>",
-  "homepage": "https://github.com/moonrailgun/saucer/tree/master/packages/editor#readme",
+  "homepage": "https://github.com/moonrailgun/saucer/tree/master/core#readme",
   "license": "MIT",
   "main": "lib/index.js",
   "module": "esm/index.js",
@@ -31,9 +31,10 @@
   },
   "devDependencies": {
     "react": "17.0.1",
-    "react-dom": "17.0.1"
+    "react-redux": "7.2.2",
+    "redux": "4.0.5"
   },
   "dependencies": {
-    "@saucer/core": "^0.0.0"
+    "@reduxjs/toolkit": "^1.4.0"
   }
 }
