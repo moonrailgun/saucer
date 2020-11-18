@@ -1,7 +1,7 @@
-import { cupsInitialState, cupsSlice, CupList } from './cups';
+import { cupsInitialState, cupsSlice, CupsState } from './cups';
 
 export interface AllType {
-  cups: CupList;
+  cups: CupsState;
 }
 
 export const allReducer = {

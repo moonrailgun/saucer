@@ -1,26 +1,21 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export interface CupType {
-  name: string;
-  displayName?: string;
-  type: 'container' | 'leaf';
-  render: React.FC;
-  desc?: React.ReactNode;
-  editor?: React.FC;
+export interface CupsState {
+  availableCup: string[];
 }
 
-export type CupList = CupType[];
-
-export const cupsInitialState: CupList = [];
+export const cupsInitialState: CupsState = {
+  availableCup: [],
+};
 
 export const cupsSlice = createSlice({
   name: 'cups',
   initialState: cupsInitialState,
   reducers: {
-    regCup(state, action: PayloadAction<CupType>) {
-      state.push(action.payload);
+    setCupAvailable(state, action: PayloadAction<string>) {
+      state.availableCup.push(action.payload);
     },
   },
 });
 
-export const { regCup } = cupsSlice.actions;
+export const { setCupAvailable } = cupsSlice.actions;

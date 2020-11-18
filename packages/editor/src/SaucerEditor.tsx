@@ -1,7 +1,7 @@
 import React from 'react';
 import { Previewer } from './Previewer';
+import { SaucerEditorProvider } from './Provider';
 import { TemplateMenu } from './TemplateMenu';
-import { SaucerProvider } from '@saucer/core';
 
 /**
  * Default Saucer Editor
@@ -9,10 +9,10 @@ import { SaucerProvider } from '@saucer/core';
  */
 export const SaucerEditor: React.FC = React.memo(() => {
   return (
-    <SaucerProvider>
+    <SaucerEditorProvider>
       <Previewer />
       <TemplateMenu />
-    </SaucerProvider>
+    </SaucerEditorProvider>
   );
 });
 SaucerEditor.displayName = 'SaucerEditor';
