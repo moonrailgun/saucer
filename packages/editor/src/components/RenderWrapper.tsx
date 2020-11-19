@@ -4,6 +4,7 @@ import { TemplateItemSymbol } from '../symbol';
 import classNames from 'classnames';
 import type { ASTType } from '@saucer/core/lib/ast/types';
 import { DropArea } from './DropArea';
+import { DropIndicator } from './DropIndicator';
 
 interface RenderWrapperProps {
   type: ASTType;
@@ -12,33 +13,36 @@ interface RenderWrapperProps {
 export const RenderWrapper: React.FC<RenderWrapperProps> = React.memo(
   (props) => {
     const { type, path } = props;
-    // const [{ clientOffset, isOverCurrent }, dropRef] = useDrop({
-    //   accept: [TemplateItemSymbol],
-    //   drop: (item, monitor) => {
-    //     const didDrop = monitor.didDrop();
-    //     if (didDrop) {
-    //       return;
-    //     }
+    const [{ isOverCurrent, dragName }, dropRef] = useDrop({
+      accept: [TemplateItemSymbol],
+      drop: (item, monitor) => {
+        const didDrop = monitor.didDrop();
+        if (didDrop) {
+          return;
+        }
 
-    //     console.log('drop', item);
-    //   },
-    //   collect: (monitor) => ({
-    //     clientOffset: monitor.getSourceClientOffset(),
-    //     isOverCurrent: monitor.isOver({ shallow: true }),
-    //   }),
-    // });
+        console.log('drop', item);
+      },
+      collect: (monitor) => ({
+        isOverCurrent: monitor.isOver({ shallow: true }),
+        dragName: monitor.getItem()?.name,
+      }),
+    });
+
+    if (type === 'container') {
+      return (
+        <div className="saucer-render-wrapper" ref={dropRef}>
+          {props.children}
+
+          {isOverCurrent && <DropIndicator name={dragName} />}
+        </div>
+      );
+    }
 
     return (
-      <div
-        className="saucer-render-wrapper"
-        // ref={dropRef}
-        // className={classNames('saucer-render-wrapper', {
-        //   'saucer-render-wrapper__over': isOverCurrent,
-        // })}
-      >
-        <DropArea path="0" />
+      <div className="saucer-render-wrapper">
+        <DropArea path={path} />
         {props.children}
-        <DropArea path="1" />
       </div>
     );
   }

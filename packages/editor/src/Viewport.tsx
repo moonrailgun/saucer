@@ -99,7 +99,7 @@ export const Viewport: React.FC = React.memo(() => {
     <div className="saucer-editor-viewport" ref={dropRef}>
       {el}
 
-      {isActive && <DropIndicator name={dragName} />}
+      {/* {isActive && <DropIndicator name={dragName} />} */}
     </div>
   );
 });
