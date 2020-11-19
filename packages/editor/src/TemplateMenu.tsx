@@ -3,20 +3,25 @@ import { findCup, useAvailableCupsName } from '@saucer/core';
 import { useDrag } from 'react-dnd';
 import { TemplateItemSymbol } from './symbol';
 import type { CupType } from '@saucer/core/lib/cups';
+import type { DragObject } from './types';
 
 const TemplateMenuItem: React.FC<{
   cup: CupType;
 }> = React.memo((props) => {
   const { cup } = props;
   const [{ opacity }, dragRef] = useDrag({
-    item: { type: TemplateItemSymbol, name: cup.name },
+    item: { type: TemplateItemSymbol, name: cup.name } as DragObject,
     collect: (monitor) => ({
       opacity: monitor.isDragging() ? 0.5 : 1,
     }),
   });
 
   return (
-    <div ref={dragRef} style={{ opacity }}>
+    <div
+      className="saucer-template-menu__item"
+      ref={dragRef}
+      style={{ opacity }}
+    >
       <div>{cup.displayName ?? cup.name}</div>
       {cup.desc && <small>{cup.desc}</small>}
     </div>
@@ -28,7 +33,7 @@ export const TemplateMenu: React.FC = React.memo(() => {
   const availableCupsName = useAvailableCupsName();
 
   return (
-    <div>
+    <div className="saucer-template-menu">
       Saucer Layout Menu:{' '}
       {availableCupsName.map((cupName) => {
         const cup = findCup(cupName);

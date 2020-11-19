@@ -1,45 +1,51 @@
-import React from 'react';
+import { findCup } from '@saucer/core';
+import React, { useCallback } from 'react';
 import { useDrop } from 'react-dnd';
+import { DropIndicator } from './components/DropIndicator';
 import { TemplateItemSymbol } from './symbol';
+import { DragObject } from './types';
 
-// for demo
+function useViewportDrop() {
+  const handleDrop = useCallback((cupName: string) => {
+    const cup = findCup(cupName);
+    if (cup !== null) {
+      console.log('cup', cup);
+    }
+  }, []);
 
-const style: React.CSSProperties = {
-  height: '12rem',
-  width: '12rem',
-  marginRight: '1.5rem',
-  marginBottom: '1.5rem',
-  color: 'white',
-  padding: '1rem',
-  textAlign: 'center',
-  fontSize: '1rem',
-  lineHeight: 'normal',
-  float: 'left',
-};
-
-export const Viewport: React.FC = React.memo(() => {
-  const [{ canDrop, isOver }, drop] = useDrop({
+  const [{ dragName, canDrop, isOver }, dropRef] = useDrop({
     accept: [TemplateItemSymbol],
-    drop: (item, monitor) => {
-      console.log(item, monitor);
+    drop: (item: DragObject, monitor) => {
+      const name = item.name;
+      if (typeof name === 'string') {
+        handleDrop(name);
+      }
     },
     collect: (monitor) => ({
+      dragName: monitor.getItem()?.name,
       isOver: monitor.isOver(),
       canDrop: monitor.canDrop(),
     }),
   });
 
   const isActive = canDrop && isOver;
-  let backgroundColor = '#222';
-  if (isActive) {
-    backgroundColor = 'darkgreen';
-  } else if (canDrop) {
-    backgroundColor = 'darkkhaki';
-  }
+
+  return {
+    dropRef,
+    dragName,
+    isActive,
+  };
+}
+
+/**
+ * Main View of User Operation to Drag and Drop
+ */
+export const Viewport: React.FC = React.memo(() => {
+  const { dropRef, dragName, isActive } = useViewportDrop();
 
   return (
-    <div ref={drop} style={{ ...style, backgroundColor }}>
-      {isActive ? 'Release to drop' : 'Drag a box here'}
+    <div className="saucer-editor-viewport" ref={dropRef}>
+      {isActive && <DropIndicator name={dragName} />}
     </div>
   );
 });

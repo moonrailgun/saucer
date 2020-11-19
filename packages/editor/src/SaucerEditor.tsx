@@ -12,12 +12,8 @@ export const SaucerEditor: React.FC = React.memo(() => {
   return (
     <SaucerEditorProvider>
       <div className="default-saucer-editor">
-        <div className="saucer-editor-template-menu">
-          <TemplateMenu />
-        </div>
-        <div className="saucer-editor-viewport">
-          <Viewport />
-        </div>
+        <TemplateMenu />
+        <Viewport />
       </div>
     </SaucerEditorProvider>
   );
