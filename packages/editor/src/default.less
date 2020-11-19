@@ -44,6 +44,23 @@
       &:hover::before {
         content: ' ';
       }
+
+      .saucer-drop-area {
+        opacity: 0;
+        padding: 10px;
+        display: none;
+        border: 1px dotted transparent;
+
+        &.saucer-drop-area__over {
+          opacity: 1;
+          background-color: #999;
+        }
+
+        &.saucer-drop-area__show {
+          border: 1px dotted #ccc;
+          display: block;
+        }
+      }
     }
   }
 }

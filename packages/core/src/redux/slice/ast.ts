@@ -11,6 +11,7 @@ import { createASTNode } from '../../ast';
 export type ASTState = ASTContainerNode;
 
 export const astInitialState: ASTContainerNode = {
+  id: 'root',
   type: 'container',
   cupName: 'root',
   attrs: {},
