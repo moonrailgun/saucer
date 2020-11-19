@@ -35,6 +35,8 @@
     "redux": "4.0.5"
   },
   "dependencies": {
-    "@reduxjs/toolkit": "^1.4.0"
+    "@reduxjs/toolkit": "^1.4.0",
+    "lodash": "^4.17.20",
+    "shortid": "^2.2.16"
   }
 }

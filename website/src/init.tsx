@@ -6,7 +6,7 @@ regCup({
   desc: '这是一个基本容器',
   type: 'container',
   render: (props) => {
-    return <div>{props.children}</div>;
+    return <div style={{ minHeight: 60 }}>{props.children}</div>;
   },
 });
 

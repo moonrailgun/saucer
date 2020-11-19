@@ -1,5 +1,5 @@
 import { setCupAvailable } from '../slice/cups';
-import { SaucerStoreType } from './type';
+import type { SaucerStoreType } from './type';
 
 export class SaucerStoreHelper {
   constructor(private store: SaucerStoreType) {}

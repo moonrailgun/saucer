@@ -16,6 +16,7 @@
     "allowSyntheticDefaultImports": true,
     "declaration": true,
     "experimentalDecorators": true,
+    "importsNotUsedAsValues": "error",
     "skipLibCheck": true
   }
 }

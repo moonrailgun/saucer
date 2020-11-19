@@ -6,3 +6,4 @@ export {
 export { defaultSaucerStoreHelper as saucerStoreHelper } from './redux/store';
 export { useAvailableCupsName } from './redux/hooks/useAvailableCupsName';
 export { regCup, findCup, getAllCup } from './cups';
+export { useASTDispatchAction } from './redux/hooks/useASTDispatchAction';
