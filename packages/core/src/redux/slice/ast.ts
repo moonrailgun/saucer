@@ -20,7 +20,7 @@ export const astInitialState: ASTContainerNode = {
   type: 'container',
   cupName: 'root',
   attrs: {},
-  childrens: [],
+  children: [],
 };
 
 export const astSlice = createSlice({
@@ -33,7 +33,7 @@ export const astSlice = createSlice({
     insertBefore(
       state,
       action: PayloadAction<{
-        targetPath: string; // For example: 0.1.0 => root.childrens[0].childrens[1].childrens[0]
+        targetPath: string; // For example: 0.1.0 => root.children[0].children[1].children[0]
         type: ASTType;
         cupName: string;
         attrs?: ASTAttrs;
@@ -50,9 +50,9 @@ export const astSlice = createSlice({
       const newNode = createASTNode(type, cupName, attrs);
       if (!target) {
         // cannot find target
-        parent.childrens.push(newNode);
+        parent.children.push(newNode);
       } else {
-        parent.childrens.splice(targetIndex, 0, newNode);
+        parent.children.splice(targetIndex, 0, newNode);
       }
     },
     /**
@@ -61,7 +61,7 @@ export const astSlice = createSlice({
     insertAfter(
       state,
       action: PayloadAction<{
-        targetPath: string; // For example: 0.1.0 => root.childrens[0].childrens[1].childrens[0]
+        targetPath: string; // For example: 0.1.0 => root.children[0].children[1].children[0]
         type: ASTType;
         cupName: string;
         attrs?: ASTAttrs;
@@ -79,16 +79,16 @@ export const astSlice = createSlice({
 
       if (!target) {
         // cannot find target
-        parent.childrens.push(newNode);
+        parent.children.push(newNode);
       } else {
-        parent.childrens.splice(targetIndex + 1, 0, newNode);
+        parent.children.splice(targetIndex + 1, 0, newNode);
       }
     },
 
     appendChildren(
       state,
       action: PayloadAction<{
-        targetPath: string; // For example: 0.1.0 => root.childrens[0].childrens[1].childrens[0]
+        targetPath: string; // For example: 0.1.0 => root.children[0].children[1].children[0]
         type: ASTType;
         cupName: string;
         attrs?: ASTAttrs;
@@ -105,7 +105,7 @@ export const astSlice = createSlice({
       const newNode = createASTNode(type, cupName, attrs);
 
       if (isContainerNode(target)) {
-        target.childrens.push(newNode);
+        target.children.push(newNode);
       } else {
         console.error('Target should be a container node');
         return;

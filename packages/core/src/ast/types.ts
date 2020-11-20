@@ -17,7 +17,7 @@ export interface ASTLeafNode extends ASTBaseNode {
 
 export interface ASTContainerNode extends ASTBaseNode {
   type: 'container';
-  childrens: ASTNode[];
+  children: ASTNode[];
 }
 
 export type ASTNode = ASTLeafNode | ASTContainerNode;

@@ -8,6 +8,7 @@ import type {
 import shortid from 'shortid';
 import _get from 'lodash/get';
 import _has from 'lodash/has';
+import _cloneDeep from 'lodash/cloneDeep';
 
 export function createASTNode(
   type: ASTType,
@@ -21,7 +22,7 @@ export function createASTNode(
       type,
       cupName: name,
       attrs,
-      childrens: [],
+      children: [],
     } as ASTContainerNode;
   } else if (type === 'leaf') {
     return {
@@ -61,14 +62,14 @@ export function findTargetNodeByPath(
     return false;
   }
   const targetIndex = pathIndexs.pop()!;
-  const containerPath = pathIndexs.join('.childrens.');
+  const containerPath = pathIndexs.join('.children.');
 
-  const parent: ASTNode = _get(root.childrens, containerPath, root);
+  const parent: ASTNode = _get(root.children, containerPath, root);
   if (parent.type !== 'container') {
     console.error('Parent is not a container');
     return false;
   }
-  const target = _get(parent, 'childrens.' + targetIndex);
+  const target = _get(parent, 'children.' + targetIndex);
 
   return { parent, target, targetIndex };
 }
@@ -77,7 +78,7 @@ export function findTargetNodeByPath(
  * Whether a node is container
  */
 export function isContainerNode(node: ASTNode): node is ASTContainerNode {
-  return node.type === 'container' && _has(node, 'childrens');
+  return node.type === 'container' && _has(node, 'children');
 }
 
 /**
@@ -90,7 +91,7 @@ export function findNodeById(root: ASTNode, id: string): ASTNode | null {
     return null;
   }
 
-  for (const node of root.childrens) {
+  for (const node of root.children) {
     if (node.id === id) {
       return node;
     } else if (isContainerNode(node)) {
@@ -102,4 +103,28 @@ export function findNodeById(root: ASTNode, id: string): ASTNode | null {
   }
 
   return null;
+}
+
+/**
+ * traverse and update tree, return new tree
+ * @param root tree root node
+ * @param id node id
+ */
+export function traverseUpdateTree<T = ASTNode>(
+  root: ASTNode,
+  updater: (node: ASTNode) => any
+): T {
+  function loop(node: ASTNode, updater: (node: ASTNode) => any) {
+    if (!isContainerNode(node)) {
+      return updater(node);
+    }
+
+    node.children = node.children.map((node) => loop(node, updater));
+
+    return updater(node);
+  }
+
+  const newRoot = loop(_cloneDeep(root), updater);
+
+  return (newRoot as any) as T;
 }

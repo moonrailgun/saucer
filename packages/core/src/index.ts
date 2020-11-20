@@ -13,3 +13,4 @@ export {
   useSetCurrentTea,
 } from './redux/hooks/useCurrentTea';
 export { useAST } from './redux/hooks/useAST';
+export { isContainerNode, traverseUpdateTree } from './ast/index';

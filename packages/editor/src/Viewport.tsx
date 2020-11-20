@@ -3,8 +3,8 @@ import { findCup, useSaucerSelector, useAST } from '@saucer/core';
 import type { ASTNode } from '@saucer/core/lib/ast/types';
 import { RenderWrapper } from './components/RenderWrapper';
 
-function renderChildrens(childrens: ASTNode[], prefixPath: string = '') {
-  return childrens.map((node, index) => {
+function renderChildren(children: ASTNode[], prefixPath: string = '') {
+  return children.map((node, index) => {
     const cup = findCup(node.cupName);
 
     if (cup === null) {
@@ -18,7 +18,7 @@ function renderChildrens(childrens: ASTNode[], prefixPath: string = '') {
     if (node.type === 'container') {
       body = cup.render({
         attrs: node.attrs,
-        children: <>{renderChildrens(node.childrens, path)}</>,
+        children: <>{renderChildren(node.children, path)}</>,
       });
     } else {
       body = cup.render({
@@ -37,7 +37,7 @@ function renderChildrens(childrens: ASTNode[], prefixPath: string = '') {
 function useViewportRender(): React.ReactNode {
   const ast = useSaucerSelector((state) => state.ast);
 
-  return <>{renderChildrens(ast.childrens)}</>;
+  return <>{renderChildren(ast.children)}</>;
 }
 
 /**

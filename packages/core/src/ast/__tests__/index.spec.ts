@@ -1,5 +1,12 @@
-import { createASTNode, findTargetNodeByPath, isContainerNode } from '../index';
+import {
+  createASTNode,
+  findTargetNodeByPath,
+  isContainerNode,
+  traverseUpdateTree,
+} from '../index';
 import type { ASTAttrs, ASTContainerNode, ASTNode, ASTType } from '../types';
+
+const cupName = 'testcup';
 
 describe('createASTNode', () => {
   const containerType = 'container' as const;
@@ -16,7 +23,7 @@ describe('createASTNode', () => {
         type: containerType,
         cupName: 'testCup',
         attrs: {},
-        childrens: [],
+        children: [],
       },
     ],
     [
@@ -28,7 +35,7 @@ describe('createASTNode', () => {
         type: containerType,
         cupName: 'testCup2',
         attrs: {},
-        childrens: [],
+        children: [],
       },
     ],
     [
@@ -40,7 +47,7 @@ describe('createASTNode', () => {
         type: containerType,
         cupName: 'testCup',
         attrs: {},
-        childrens: [],
+        children: [],
       },
     ],
     [
@@ -52,7 +59,7 @@ describe('createASTNode', () => {
         type: containerType,
         cupName: 'testCup',
         attrs: { a: 1, b: 2 },
-        childrens: [],
+        children: [],
       },
     ],
   ])(
@@ -117,25 +124,24 @@ describe('createASTNode', () => {
 });
 
 describe('findTargetNodeByPath', () => {
-  const cupName = 'testcup';
   const testAST: ASTContainerNode = {
     id: '1',
     type: 'container',
     attrs: {},
     cupName,
-    childrens: [
+    children: [
       {
         id: '2',
         type: 'container',
         attrs: {},
         cupName,
-        childrens: [
+        children: [
           {
             id: '4',
             type: 'container',
             attrs: {},
             cupName,
-            childrens: [],
+            children: [],
           },
           {
             id: '5',
@@ -179,7 +185,7 @@ describe('isContainerNode', () => {
       isContainerNode({
         cupName: '',
         type: 'container',
-        childrens: [],
+        children: [],
         id: '',
         attrs: {},
       })
@@ -195,5 +201,85 @@ describe('isContainerNode', () => {
         attrs: {},
       })
     ).toBe(false);
+  });
+});
+
+describe('traverseUpdateTree', () => {
+  const testAST: ASTContainerNode = {
+    id: '1',
+    type: 'container',
+    attrs: {},
+    cupName,
+    children: [
+      {
+        id: '2',
+        type: 'container',
+        attrs: {},
+        cupName,
+        children: [],
+      },
+      {
+        id: '3',
+        type: 'leaf',
+        attrs: {},
+        cupName,
+      },
+    ],
+  };
+
+  const newTree = traverseUpdateTree(testAST, (node) => ({
+    ...node,
+    extra: 'extra' + node.id,
+  }));
+
+  test('should be not modify origin tree', () => {
+    expect(testAST).toMatchObject({
+      id: '1',
+      type: 'container',
+      attrs: {},
+      cupName,
+      children: [
+        {
+          id: '2',
+          type: 'container',
+          attrs: {},
+          cupName,
+          children: [],
+        },
+        {
+          id: '3',
+          type: 'leaf',
+          attrs: {},
+          cupName,
+        },
+      ],
+    });
+  });
+
+  test('should apply updater', () => {
+    expect(newTree).toMatchObject({
+      id: '1',
+      type: 'container',
+      attrs: {},
+      cupName: 'testcup',
+      extra: 'extra1',
+      children: [
+        {
+          id: '2',
+          type: 'container',
+          attrs: {},
+          cupName: 'testcup',
+          children: [],
+          extra: 'extra2',
+        },
+        {
+          id: '3',
+          type: 'leaf',
+          attrs: {},
+          cupName: 'testcup',
+          extra: 'extra3',
+        },
+      ],
+    });
   });
 });
