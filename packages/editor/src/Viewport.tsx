@@ -1,54 +1,7 @@
-import { findCup, useASTDispatchAction, useSaucerSelector } from '@saucer/core';
+import React from 'react';
+import { findCup, useSaucerSelector } from '@saucer/core';
 import type { ASTNode } from '@saucer/core/lib/ast/types';
-import React, { useCallback } from 'react';
-import { useDrop } from 'react-dnd';
-import { DropIndicator } from './components/DropIndicator';
 import { RenderWrapper } from './components/RenderWrapper';
-import { TemplateItemSymbol } from './symbol';
-import type { DragObject } from './types';
-
-function useViewportDrop() {
-  const { dispatchInsertBefore } = useASTDispatchAction();
-
-  const handleDrop = useCallback(
-    (cupName: string) => {
-      const cup = findCup(cupName);
-      if (cup !== null) {
-        dispatchInsertBefore('0', cup.type, cup.name);
-      }
-    },
-    [dispatchInsertBefore]
-  );
-
-  const [{ dragName, canDrop, isOver }, dropRef] = useDrop({
-    accept: [TemplateItemSymbol],
-    drop: (item: DragObject, monitor) => {
-      // If someone handle drop event, skip it
-      const didDrop = monitor.didDrop();
-      if (didDrop) {
-        return;
-      }
-
-      const name = item.name;
-      if (typeof name === 'string') {
-        handleDrop(name);
-      }
-    },
-    collect: (monitor) => ({
-      dragName: monitor.getItem()?.name,
-      isOver: monitor.isOver({ shallow: true }),
-      canDrop: monitor.canDrop(),
-    }),
-  });
-
-  const isActive = canDrop && isOver;
-
-  return {
-    dropRef,
-    dragName,
-    isActive,
-  };
-}
 
 function renderChildrens(childrens: ASTNode[], prefixPath: string = '') {
   return childrens.map((node, index) => {
@@ -92,14 +45,13 @@ function useViewportRender(): React.ReactNode {
  * Main View of User Operation to Drag and Drop
  */
 export const Viewport: React.FC = React.memo(() => {
-  const { dropRef, dragName, isActive } = useViewportDrop();
   const el = useViewportRender();
 
   return (
-    <div className="saucer-editor-viewport" ref={dropRef}>
-      {el}
-
-      {/* {isActive && <DropIndicator name={dragName} />} */}
+    <div className="saucer-editor-viewport">
+      <RenderWrapper type="container" path="">
+        {el}
+      </RenderWrapper>
     </div>
   );
 });

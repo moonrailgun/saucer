@@ -5,8 +5,13 @@ import type {
   ASTNode,
   ASTType,
 } from '../../ast/types';
+
 import _get from 'lodash/get';
-import { createASTNode } from '../../ast';
+import {
+  createASTNode,
+  findTargetNodeByPath,
+  isContainerNode,
+} from '../../ast';
 
 export type ASTState = ASTContainerNode;
 
@@ -23,7 +28,7 @@ export const astSlice = createSlice({
   initialState: astInitialState,
   reducers: {
     /**
-     * 在目标元素之前插入
+     * Insert before ast node
      */
     insertBefore(
       state,
@@ -36,29 +41,77 @@ export const astSlice = createSlice({
     ) {
       const { targetPath, type, cupName, attrs = {} } = action.payload;
 
-      const pathIndexs = targetPath.split('.').map(Number);
-      if (pathIndexs.length === 0) {
-        console.error('Path is Empty');
+      const findRes = findTargetNodeByPath(state, targetPath);
+      if (findRes === false) {
         return;
       }
-      const targetIndex = pathIndexs.pop()!;
-      const containerPath = pathIndexs.join('.childrens.');
 
-      const parent: ASTNode = _get(state.childrens, containerPath, state);
-      if (parent.type !== 'container') {
-        console.error('Parent is not a container');
-        return;
-      }
-      const target = _get(parent, 'childrens.' + targetIndex);
+      const { target, parent, targetIndex } = findRes;
       const newNode = createASTNode(type, cupName, attrs);
       if (!target) {
         // cannot find target
-        (parent as ASTContainerNode).childrens.push(newNode);
+        parent.childrens.push(newNode);
       } else {
-        (parent as ASTContainerNode).childrens.splice(targetIndex, 0, newNode);
+        parent.childrens.splice(targetIndex, 0, newNode);
+      }
+    },
+    /**
+     * Insert after ast node
+     */
+    insertAfter(
+      state,
+      action: PayloadAction<{
+        targetPath: string; // For example: 0.1.0 => root.childrens[0].childrens[1].childrens[0]
+        type: ASTType;
+        cupName: string;
+        attrs?: ASTAttrs;
+      }>
+    ) {
+      const { targetPath, type, cupName, attrs = {} } = action.payload;
+
+      const findRes = findTargetNodeByPath(state, targetPath);
+      if (findRes === false) {
+        return;
+      }
+
+      const { target, parent, targetIndex } = findRes;
+      const newNode = createASTNode(type, cupName, attrs);
+
+      if (!target) {
+        // cannot find target
+        parent.childrens.push(newNode);
+      } else {
+        parent.childrens.splice(targetIndex + 1, 0, newNode);
+      }
+    },
+
+    appendChildren(
+      state,
+      action: PayloadAction<{
+        targetPath: string; // For example: 0.1.0 => root.childrens[0].childrens[1].childrens[0]
+        type: ASTType;
+        cupName: string;
+        attrs?: ASTAttrs;
+      }>
+    ) {
+      const { targetPath, type, cupName, attrs = {} } = action.payload;
+
+      const findRes = findTargetNodeByPath(state, targetPath);
+      if (findRes === false) {
+        return;
+      }
+
+      const { parent } = findRes;
+      const newNode = createASTNode(type, cupName, attrs);
+
+      if (isContainerNode(parent)) {
+        parent.childrens.push(newNode);
+      } else {
+        console.error('Target should be a container node');
+        return;
       }
     },
   },
 });
 
-export const { insertBefore } = astSlice.actions;
+export const { insertBefore, insertAfter, appendChildren } = astSlice.actions;

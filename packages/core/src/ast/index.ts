@@ -6,6 +6,8 @@ import type {
   ASTType,
 } from './types';
 import shortid from 'shortid';
+import _get from 'lodash/get';
+import _has from 'lodash/has';
 
 export function createASTNode(
   type: ASTType,
@@ -36,4 +38,36 @@ export function createASTNode(
       attrs,
     } as ASTNode;
   }
+}
+
+/**
+ * Find node in ast by path like '0.1'
+ */
+export function findTargetNodeByPath(
+  root: ASTContainerNode,
+  path: string
+): { parent: ASTContainerNode; target: ASTNode; targetIndex: number } | false {
+  const pathIndexs = path.split('.').map(Number);
+  if (pathIndexs.length === 0) {
+    console.error('Path is Empty');
+    return false;
+  }
+  const targetIndex = pathIndexs.pop()!;
+  const containerPath = pathIndexs.join('.childrens.');
+
+  const parent: ASTNode = _get(root.childrens, containerPath, root);
+  if (parent.type !== 'container') {
+    console.error('Parent is not a container');
+    return false;
+  }
+  const target = _get(parent, 'childrens.' + targetIndex);
+
+  return { parent, target, targetIndex };
+}
+
+/**
+ * Whether a node is container
+ */
+export function isContainerNode(node: ASTNode): node is ASTContainerNode {
+  return _has(node, 'childrens');
 }

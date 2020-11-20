@@ -27,6 +27,11 @@
       text-align: center;
     }
 
+    > .saucer-render-wrapper {
+      width: 100%;
+      height: 100%;
+    }
+
     .saucer-render-wrapper {
       position: relative;
       cursor: grab;
@@ -41,7 +46,7 @@
         border: 1px dashed #ccc;
       }
 
-      &:hover::before {
+      &:hover::before, &:active::before, &:focus::before {
         content: ' ';
       }
 
