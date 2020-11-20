@@ -1,5 +1,5 @@
 import React from 'react';
-import { findCup, useSaucerSelector } from '@saucer/core';
+import { findCup, useSaucerSelector, useAST } from '@saucer/core';
 import type { ASTNode } from '@saucer/core/lib/ast/types';
 import { RenderWrapper } from './components/RenderWrapper';
 
@@ -14,24 +14,23 @@ function renderChildrens(childrens: ASTNode[], prefixPath: string = '') {
     const key = node.id;
     const path = prefixPath === '' ? String(index) : `${prefixPath}.${index}`;
 
+    let body: React.ReactNode;
     if (node.type === 'container') {
-      return (
-        <RenderWrapper key={key} type="container" path={path}>
-          {cup.render({
-            attrs: node.attrs,
-            children: <>{renderChildrens(node.childrens, path)}</>,
-          })}
-        </RenderWrapper>
-      );
+      body = cup.render({
+        attrs: node.attrs,
+        children: <>{renderChildrens(node.childrens, path)}</>,
+      });
     } else {
-      return (
-        <RenderWrapper key={key} type="leaf" path={path}>
-          {cup.render({
-            attrs: node.attrs,
-          })}
-        </RenderWrapper>
-      );
+      body = cup.render({
+        attrs: node.attrs,
+      });
     }
+
+    return (
+      <RenderWrapper key={key} path={path} tea={node}>
+        {body}
+      </RenderWrapper>
+    );
   });
 }
 
@@ -46,10 +45,11 @@ function useViewportRender(): React.ReactNode {
  */
 export const Viewport: React.FC = React.memo(() => {
   const el = useViewportRender();
+  const root = useAST();
 
   return (
     <div className="saucer-editor-viewport">
-      <RenderWrapper type="container" path="">
+      <RenderWrapper path="" tea={root}>
         {el}
       </RenderWrapper>
     </div>

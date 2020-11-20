@@ -3,6 +3,7 @@ import React from 'react';
 
 regCup({
   name: 'Container',
+  displayName: '容器组件',
   desc: '这是一个基本容器',
   type: 'container',
   render: (props) => {
@@ -12,6 +13,7 @@ regCup({
 
 regCup({
   name: 'Button',
+  displayName: '按钮组件',
   desc: '这是一个按钮',
   type: 'leaf',
   render: () => {

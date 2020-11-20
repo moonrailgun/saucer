@@ -79,3 +79,27 @@ export function findTargetNodeByPath(
 export function isContainerNode(node: ASTNode): node is ASTContainerNode {
   return node.type === 'container' && _has(node, 'childrens');
 }
+
+/**
+ * Traverse Tree and find node by node id
+ * @param root tree root node
+ * @param id node id
+ */
+export function findNodeById(root: ASTNode, id: string): ASTNode | null {
+  if (!isContainerNode(root)) {
+    return null;
+  }
+
+  for (const node of root.childrens) {
+    if (node.id === id) {
+      return node;
+    } else if (isContainerNode(node)) {
+      const res = findNodeById(node, id);
+      if (res !== null) {
+        return res;
+      }
+    }
+  }
+
+  return null;
+}

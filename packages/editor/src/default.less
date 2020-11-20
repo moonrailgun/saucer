@@ -46,8 +46,14 @@
         border: 1px dashed #ccc;
       }
 
-      &:hover::before, &:active::before, &:focus::before {
+      &:hover::before,
+      &.saucer-render-wrapper__hover::before {
         content: ' ';
+      }
+
+      &.saucer-render-wrapper__selected::before {
+        content: ' ';
+        border: 1px solid #4285f4;
       }
 
       .saucer-drop-area {

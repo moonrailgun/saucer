@@ -101,11 +101,11 @@ export const astSlice = createSlice({
         return;
       }
 
-      const { parent } = findRes;
+      const { target } = findRes;
       const newNode = createASTNode(type, cupName, attrs);
 
-      if (isContainerNode(parent)) {
-        parent.childrens.push(newNode);
+      if (isContainerNode(target)) {
+        target.childrens.push(newNode);
       } else {
         console.error('Target should be a container node');
         return;

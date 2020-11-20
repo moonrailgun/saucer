@@ -2,23 +2,32 @@ import React, { useCallback } from 'react';
 import { useDrop } from 'react-dnd';
 import { TemplateItemSymbol } from '../symbol';
 import classNames from 'classnames';
-import type { ASTType } from '@saucer/core/lib/ast/types';
+import type { ASTNode, ASTType } from '@saucer/core/lib/ast/types';
 import { DropArea } from './DropArea';
 import { DropIndicator } from './DropIndicator';
-import { findCup, useASTDispatchAction } from '@saucer/core';
+import {
+  findCup,
+  useASTDispatchAction,
+  useCurrentTeaId,
+  useSetCurrentTea,
+} from '@saucer/core';
 import type { DragObject } from '../types';
 
 interface RenderWrapperProps {
-  type: ASTType;
   path: string;
+  tea: ASTNode;
 }
 export const RenderWrapper: React.FC<RenderWrapperProps> = React.memo(
   (props) => {
-    const { type, path } = props;
+    const { path, tea } = props;
+    const type = tea.type;
     const {
       dispatchInsertAfter,
       dispatchAppendChildren,
     } = useASTDispatchAction();
+    const currentSelectedTeaId = useCurrentTeaId();
+    const isSelected = tea.id === currentSelectedTeaId;
+    const setCurrentTea = useSetCurrentTea();
 
     const handleDrop = useCallback(
       (cupName: string) => {
@@ -37,6 +46,14 @@ export const RenderWrapper: React.FC<RenderWrapperProps> = React.memo(
       [type, path, dispatchInsertAfter, dispatchAppendChildren]
     );
 
+    const handleClick = useCallback(
+      (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        e.stopPropagation();
+        setCurrentTea(tea.id);
+      },
+      [setCurrentTea, tea.id]
+    );
+
     const [{ isOverCurrent, dragName }, dropRef] = useDrop({
       accept: [TemplateItemSymbol],
       drop: (item: DragObject, monitor) => {
@@ -53,20 +70,33 @@ export const RenderWrapper: React.FC<RenderWrapperProps> = React.memo(
       }),
     });
 
+    let el: React.ReactNode;
     if (type === 'container') {
-      return (
-        <div className="saucer-render-wrapper" ref={dropRef}>
+      el = (
+        <>
           {props.children}
-
           {isOverCurrent && <DropIndicator name={dragName} />}
-        </div>
+        </>
+      );
+    } else {
+      el = (
+        <>
+          <DropArea path={path} position="before" />
+          {props.children}
+        </>
       );
     }
 
     return (
-      <div className="saucer-render-wrapper">
-        <DropArea path={path} position="before" />
-        {props.children}
+      <div
+        ref={dropRef}
+        className={classNames('saucer-render-wrapper', {
+          'saucer-render-wrapper__selected': isSelected,
+          'saucer-render-wrapper__hover': isOverCurrent,
+        })}
+        onClick={handleClick}
+      >
+        {el}
       </div>
     );
   }
