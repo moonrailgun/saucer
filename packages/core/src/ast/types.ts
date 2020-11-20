@@ -8,7 +8,7 @@ export interface ASTBaseNode {
   id: string;
   type: ASTType;
   cupName: string;
-  attrs: { [key: string]: ASTAttrs };
+  attrs: ASTAttrs;
 }
 
 export interface ASTLeafNode extends ASTBaseNode {

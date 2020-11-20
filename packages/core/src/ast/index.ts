@@ -47,7 +47,15 @@ export function findTargetNodeByPath(
   root: ASTContainerNode,
   path: string
 ): { parent: ASTContainerNode; target: ASTNode; targetIndex: number } | false {
-  const pathIndexs = path.split('.').map(Number);
+  if (path === '') {
+    // hardcode
+    return { parent: root, target: root, targetIndex: 0 };
+  }
+
+  const pathIndexs = path
+    .split('.')
+    .filter((s) => typeof s === 'string')
+    .map(Number);
   if (pathIndexs.length === 0) {
     console.error('Path is Empty');
     return false;
@@ -69,5 +77,5 @@ export function findTargetNodeByPath(
  * Whether a node is container
  */
 export function isContainerNode(node: ASTNode): node is ASTContainerNode {
-  return _has(node, 'childrens');
+  return node.type === 'container' && _has(node, 'childrens');
 }
