@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import type { ASTAttrs, ASTType } from 'src/ast/types';
+import type { ASTAttrs, ASTType } from '../../ast/types';
 import { useSaucerDispatch } from '../context';
 import { appendChildren, insertAfter, insertBefore } from '../slice/ast';
 
