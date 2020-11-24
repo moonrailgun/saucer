@@ -9,8 +9,8 @@ export { regCup, findCup, getAllCup } from './cups';
 export { useASTDispatchAction } from './redux/hooks/useASTDispatchAction';
 export {
   useCurrentTeaId,
-  useCurrentTea,
-  useSetCurrentTea,
+  useCurrentTeaAttrs,
+  useCurrentTeaAction,
 } from './redux/hooks/useCurrentTea';
 export { useAST } from './redux/hooks/useAST';
 export { isContainerNode, traverseUpdateTree } from './ast/index';

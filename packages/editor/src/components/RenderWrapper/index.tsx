@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import classNames from 'classnames';
 import type { ASTNode } from '@saucer/core';
 import { DropIndicator } from '../DropIndicator';
-import { useCurrentTeaId, useSetCurrentTea } from '@saucer/core';
+import { useCurrentTeaId, useCurrentTeaAction } from '@saucer/core';
 import { useDragAndDrop } from './useDragAndDrop';
 
 interface RenderWrapperProps {
@@ -15,7 +15,7 @@ export const RenderWrapper: React.FC<RenderWrapperProps> = React.memo(
     const type = tea.type;
     const currentSelectedTeaId = useCurrentTeaId();
     const isSelected = tea.id === currentSelectedTeaId;
-    const setCurrentTea = useSetCurrentTea();
+    const { setCurrentTeaId } = useCurrentTeaAction();
 
     const { dndRef, isOverCurrent, dragName, dndClassName } = useDragAndDrop(
       props
@@ -24,9 +24,9 @@ export const RenderWrapper: React.FC<RenderWrapperProps> = React.memo(
     const handleClick = useCallback(
       (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         e.stopPropagation();
-        setCurrentTea(tea.id);
+        setCurrentTeaId(tea.id);
       },
-      [setCurrentTea, tea.id]
+      [setCurrentTeaId, tea.id]
     );
 
     let el: React.ReactNode;

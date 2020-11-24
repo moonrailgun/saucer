@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { findNodeById } from '../../ast';
-import type { ASTNode } from '../../ast/types';
+import type { ASTAttrs, ASTNode } from '../../ast/types';
 import { useSaucerDispatch, useSaucerSelector } from '../context';
 import { setCurrentSelectTeaId } from '../slice/editor';
 
@@ -15,7 +15,7 @@ export function useCurrentTeaId(): string | null {
 /**
  * Get current selected Tea Info
  */
-export function useCurrentTea(): ASTNode | null {
+function useCurrentTea(): ASTNode | null {
   const currentSelectedTeaId = useCurrentTeaId();
   const ast = useSaucerSelector((state) => state.ast);
 
@@ -26,12 +26,18 @@ export function useCurrentTea(): ASTNode | null {
   return findNodeById(ast, currentSelectedTeaId);
 }
 
-export function useSetCurrentTea() {
+export function useCurrentTeaAttrs(): ASTAttrs {
+  const currentTea = useCurrentTea();
+
+  return currentTea?.attrs ?? {};
+}
+
+export function useCurrentTeaAction() {
   const dispatch = useSaucerDispatch();
 
   const setCurrentTeaId = useCallback((id: string | null) => {
     dispatch(setCurrentSelectTeaId(id));
   }, []);
 
-  return setCurrentTeaId;
+  return { setCurrentTeaId };
 }

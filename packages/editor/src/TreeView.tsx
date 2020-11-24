@@ -6,14 +6,14 @@ import {
   traverseUpdateTree,
   isContainerNode,
   useCurrentTeaId,
-  useSetCurrentTea,
+  useCurrentTeaAction,
 } from '@saucer/core';
 import type { DataNode, Key } from 'rc-tree/lib/interface';
 
 export const TreeView: React.FC = React.memo(() => {
   const ast = useAST();
   const currentSelectedTeaId = useCurrentTeaId();
-  const setCurrentTea = useSetCurrentTea();
+  const { setCurrentTeaId } = useCurrentTeaAction();
   const selectedKeys = useMemo(() => {
     if (currentSelectedTeaId === null) {
       return [];
@@ -43,12 +43,12 @@ export const TreeView: React.FC = React.memo(() => {
   const handleSelect = useCallback(
     (selectedKeys: Key[]) => {
       if (typeof selectedKeys[0] === 'string') {
-        setCurrentTea(selectedKeys[0]);
+        setCurrentTeaId(selectedKeys[0]);
       } else {
-        setCurrentTea(null);
+        setCurrentTeaId(null);
       }
     },
-    [setCurrentTea]
+    [setCurrentTeaId]
   );
 
   return (
