@@ -30,6 +30,7 @@
     "start": "cd website && yarn start",
     "bootstrap": "lerna bootstrap",
     "build:watch": "lerna run build:watch --parallel --scope=@saucer/core --scope=@saucer/editor",
+    "build:style": "lerna run build:style",
     "test": "jest"
   },
   "husky": {

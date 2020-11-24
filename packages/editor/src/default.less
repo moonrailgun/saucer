@@ -56,6 +56,23 @@
         border: 1px solid #4285f4;
       }
 
+      &::after {
+        content: none;
+        position: absolute;
+        left: 0;
+        right: 0;
+        border: 1px solid #4285f4;
+      }
+
+      &.saucer-render-wrapper__hover-top::after {
+        content: ' ';
+        top: 0;
+      }
+      &.saucer-render-wrapper__hover-bottom::after {
+        content: ' ';
+        bottom: 0;
+      }
+
       .saucer-drop-area {
         padding: 4px;
         font-size: 10px;
