@@ -1,18 +1,14 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import { findCup, useASTDispatchAction } from '@saucer/core';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { useDrop } from 'react-dnd';
-import { TemplateItemSymbol } from '../symbol';
-import classNames from 'classnames';
-import type { ASTNode } from '@saucer/core/lib/ast/types';
-import { DropIndicator } from './DropIndicator';
-import {
-  findCup,
-  useASTDispatchAction,
-  useCurrentTeaId,
-  useSetCurrentTea,
-} from '@saucer/core';
-import type { DragObject } from '../types';
+import { TemplateItemSymbol } from '../../symbol';
+import type { DragObject } from '../../types';
+import type { RenderWrapperProps } from './types';
 
-function useDragAndDrop(props: RenderWrapperProps) {
+/**
+ * render wrapper dnd event hooks.
+ */
+export function useDragAndDrop(props: RenderWrapperProps) {
   const { path, tea } = props;
   const teaType = tea.type;
   const {
@@ -109,55 +105,3 @@ function useDragAndDrop(props: RenderWrapperProps) {
 
   return { dndRef, isOverCurrent, dragName, dndClassName };
 }
-
-interface RenderWrapperProps {
-  path: string;
-  tea: ASTNode;
-}
-export const RenderWrapper: React.FC<RenderWrapperProps> = React.memo(
-  (props) => {
-    const { tea } = props;
-    const type = tea.type;
-    const currentSelectedTeaId = useCurrentTeaId();
-    const isSelected = tea.id === currentSelectedTeaId;
-    const setCurrentTea = useSetCurrentTea();
-
-    const { dndRef, isOverCurrent, dragName, dndClassName } = useDragAndDrop(
-      props
-    );
-
-    const handleClick = useCallback(
-      (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-        e.stopPropagation();
-        setCurrentTea(tea.id);
-      },
-      [setCurrentTea, tea.id]
-    );
-
-    let el: React.ReactNode;
-    if (type === 'container') {
-      el = (
-        <>
-          {props.children}
-          {isOverCurrent && <DropIndicator name={dragName} />}
-        </>
-      );
-    } else {
-      el = <>{props.children}</>;
-    }
-
-    return (
-      <div
-        ref={dndRef as any}
-        className={classNames(dndClassName, 'saucer-render-wrapper', {
-          'saucer-render-wrapper__selected': isSelected,
-          'saucer-render-wrapper__hover': isOverCurrent,
-        })}
-        onClick={handleClick}
-      >
-        {el}
-      </div>
-    );
-  }
-);
-RenderWrapper.displayName = 'RenderWrapper';
