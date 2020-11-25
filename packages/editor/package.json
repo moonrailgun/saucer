@@ -1,6 +1,6 @@
 {
   "name": "@saucer/editor",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "> TODO: description",
   "author": "moonrailgun <moonrailgun@gmail.com>",
   "homepage": "https://github.com/moonrailgun/saucer/tree/master/packages/editor#readme",
@@ -35,7 +35,7 @@
     "react-dom": "17.0.1"
   },
   "dependencies": {
-    "@saucer/core": "^0.0.0",
+    "@saucer/core": "^0.0.1",
     "classnames": "^2.2.6",
     "less": "^3.12.2",
     "rc-tree": "^4.0.0-beta.2",
