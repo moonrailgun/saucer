@@ -1,4 +1,4 @@
-import type { ASTNode } from '@saucer/core';
+import type { ASTNode } from '@saucerjs/core';
 
 export interface RenderWrapperProps {
   path: string;

@@ -1,4 +1,4 @@
-import { findCup, useASTDispatchAction } from '@saucer/core';
+import { findCup, useASTDispatchAction } from '@saucerjs/core';
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { useDrop } from 'react-dnd';
 import { TemplateItemSymbol } from '../../symbol';

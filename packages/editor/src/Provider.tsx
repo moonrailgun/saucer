@@ -1,5 +1,5 @@
 import React from 'react';
-import { SaucerProvider } from '@saucer/core';
+import { SaucerProvider } from '@saucerjs/core';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 

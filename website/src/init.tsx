@@ -1,4 +1,4 @@
-import { regCup, saucerStoreHelper } from '@saucer/core';
+import { regCup, saucerStoreHelper } from '@saucerjs/core';
 import React from 'react';
 
 regCup({

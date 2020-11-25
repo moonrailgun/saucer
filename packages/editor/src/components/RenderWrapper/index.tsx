@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react';
 import classNames from 'classnames';
-import type { ASTNode } from '@saucer/core';
+import type { ASTNode } from '@saucerjs/core';
 import { DropIndicator } from '../DropIndicator';
-import { useCurrentTeaId, useCurrentTeaAction } from '@saucer/core';
+import { useCurrentTeaId, useCurrentTeaAction } from '@saucerjs/core';
 import { useDragAndDrop } from './useDragAndDrop';
 
 interface RenderWrapperProps {

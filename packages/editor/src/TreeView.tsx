@@ -7,7 +7,7 @@ import {
   isContainerNode,
   useCurrentTeaId,
   useCurrentTeaAction,
-} from '@saucer/core';
+} from '@saucerjs/core';
 import type { DataNode, Key } from 'rc-tree/lib/interface';
 
 export const TreeView: React.FC = React.memo(() => {

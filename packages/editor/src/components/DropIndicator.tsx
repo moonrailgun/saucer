@@ -1,4 +1,4 @@
-import { findCup } from '@saucer/core';
+import { findCup } from '@saucerjs/core';
 import React, { useMemo } from 'react';
 
 interface DropIndicatorProps {

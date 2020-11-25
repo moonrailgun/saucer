@@ -1,5 +1,5 @@
 import React from 'react';
-import { useCurrentTeaAttrs, useCurrentTeaCup } from '@saucer/core';
+import { useCurrentTeaAttrs, useCurrentTeaCup } from '@saucerjs/core';
 import { TeaAttrsContext } from './context/TeaAttrsContext';
 
 export const Inspector: React.FC = React.memo(() => {

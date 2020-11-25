@@ -1,5 +1,5 @@
 {
-  "name": "saucer",
+  "name": "saucerjs",
   "version": "1.0.0",
   "description": "A Layout Editor for Drag and Drop",
   "private": true,
@@ -29,7 +29,7 @@
     "start": "cd website && yarn start",
     "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
-    "build:watch": "lerna run build:watch --parallel --scope=@saucer/core --scope=@saucer/editor",
+    "build:watch": "lerna run build:watch --parallel --scope=@saucerjs/core --scope=@saucerjs/editor",
     "build:style": "lerna run build:style",
     "release": "lerna run build && lerna publish",
     "test": "jest"

@@ -1,4 +1,4 @@
-import type { ASTAttrs } from '@saucer/core';
+import type { ASTAttrs } from '@saucerjs/core';
 import React, { useContext } from 'react';
 
 export const TeaAttrsContext = React.createContext<ASTAttrs>({});

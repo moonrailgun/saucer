@@ -1,5 +1,5 @@
 {
-  "name": "@saucer/core",
+  "name": "@saucerjs/core",
   "version": "0.0.1",
   "description": "> TODO: description",
   "author": "moonrailgun <moonrailgun@gmail.com>",
@@ -13,7 +13,8 @@
     "test": "__tests__"
   },
   "files": [
-    "lib"
+    "lib",
+    "esm"
   ],
   "repository": {
     "type": "git",
@@ -38,5 +39,6 @@
     "@reduxjs/toolkit": "^1.4.0",
     "lodash": "^4.17.20",
     "shortid": "^2.2.16"
-  }
+  },
+  "gitHead": "1b61818c256a9db3428261a5aae9f9ac70ab808f"
 }

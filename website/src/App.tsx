@@ -1,6 +1,6 @@
 import React from 'react';
-import { SaucerEditor } from '@saucer/editor';
-import '@saucer/editor/lib/default.css';
+import { SaucerEditor } from '@saucerjs/editor';
+import '@saucerjs/editor/lib/default.css';
 
 export const App: React.FC = React.memo(() => {
   return (

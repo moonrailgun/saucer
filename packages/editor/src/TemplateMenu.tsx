@@ -1,5 +1,5 @@
 import React from 'react';
-import { findCup, useAvailableCupsName, CupType } from '@saucer/core';
+import { findCup, useAvailableCupsName, CupType } from '@saucerjs/core';
 import { useDrag } from 'react-dnd';
 import { TemplateItemSymbol } from './symbol';
 import type { DragObject } from './types';

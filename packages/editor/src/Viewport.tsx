@@ -1,6 +1,6 @@
 import React from 'react';
-import { findCup, useSaucerSelector, useAST } from '@saucer/core';
-import type { ASTNode } from '@saucer/core/lib/ast/types';
+import { findCup, useSaucerSelector, useAST } from '@saucerjs/core';
+import type { ASTNode } from '@saucerjs/core/lib/ast/types';
 import { RenderWrapper } from './components/RenderWrapper';
 
 function renderChildren(children: ASTNode[], prefixPath: string = '') {

@@ -13,7 +13,7 @@ A Layout Editor for Drag and Drop
 ```jsx
 import React from 'react';
 import ReactDom from 'react-dom';
-import { regCup } from '@saucer/core';
+import { regCup } from '@saucerjs/core';
 
 regCup({
   name: 'Button',
