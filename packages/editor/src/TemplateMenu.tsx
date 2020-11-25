@@ -1,8 +1,7 @@
 import React from 'react';
-import { findCup, useAvailableCupsName } from '@saucer/core';
+import { findCup, useAvailableCupsName, CupType } from '@saucer/core';
 import { useDrag } from 'react-dnd';
 import { TemplateItemSymbol } from './symbol';
-import type { CupType } from '@saucer/core/lib/cups';
 import type { DragObject } from './types';
 
 const TemplateMenuItem: React.FC<{

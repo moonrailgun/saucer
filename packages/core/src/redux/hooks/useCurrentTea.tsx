@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import { CupType, findCup } from '../../cups';
 import { findNodeById } from '../../ast';
 import type { ASTAttrs, ASTNode } from '../../ast/types';
 import { useSaucerDispatch, useSaucerSelector } from '../context';
@@ -14,6 +15,7 @@ export function useCurrentTeaId(): string | null {
 
 /**
  * Get current selected Tea Info
+ * Its is
  */
 function useCurrentTea(): ASTNode | null {
   const currentSelectedTeaId = useCurrentTeaId();
@@ -30,6 +32,17 @@ export function useCurrentTeaAttrs(): ASTAttrs {
   const currentTea = useCurrentTea();
 
   return currentTea?.attrs ?? {};
+}
+
+export function useCurrentTeaCup(): CupType | null {
+  const currentTea = useCurrentTea();
+  const cupName = currentTea?.cupName;
+
+  if (cupName === undefined) {
+    return null;
+  }
+
+  return findCup(cupName);
 }
 
 export function useCurrentTeaAction() {

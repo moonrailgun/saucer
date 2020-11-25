@@ -1,4 +1,5 @@
 import React from 'react';
+import { Inspector } from './Inspector';
 import { Previewer } from './Previewer';
 import { SaucerEditorProvider } from './Provider';
 import { TemplateMenu } from './TemplateMenu';
@@ -15,7 +16,10 @@ export const SaucerEditor: React.FC = React.memo(() => {
       <div className="default-saucer-editor">
         <TemplateMenu />
         <Viewport />
-        <TreeView />
+        <div className="saucer-editor-right">
+          <TreeView />
+          <Inspector />
+        </div>
       </div>
     </SaucerEditorProvider>
   );

@@ -9,6 +9,9 @@ regCup({
   render: (props) => {
     return <div style={{ minHeight: 100 }}>{props.children}</div>;
   },
+  editor: () => {
+    return <div>这里是容器的属性编辑器</div>;
+  },
 });
 
 regCup({
@@ -18,6 +21,9 @@ regCup({
   type: 'leaf',
   render: () => {
     return <button>按钮</button>;
+  },
+  editor: () => {
+    return <div>这里是按钮的属性编辑器</div>;
   },
 });
 
