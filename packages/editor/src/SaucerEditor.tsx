@@ -5,6 +5,7 @@ import { SaucerEditorProvider } from './Provider';
 import { TemplateMenu } from './TemplateMenu';
 import { TreeView } from './TreeView';
 import { Viewport } from './ViewPort';
+import SplitPane from 'react-split-pane';
 
 /**
  * Default Saucer Editor
@@ -13,14 +14,18 @@ import { Viewport } from './ViewPort';
 export const SaucerEditor: React.FC = React.memo(() => {
   return (
     <SaucerEditorProvider>
-      <div className="default-saucer-editor">
+      <SplitPane split="vertical" minSize={180}>
         <TemplateMenu />
-        <Viewport />
-        <div className="saucer-editor-right">
-          <TreeView />
-          <Inspector />
-        </div>
-      </div>
+
+        <SplitPane split="vertical" primary="second" minSize={240}>
+          <Viewport />
+
+          <SplitPane split="horizontal" minSize={240}>
+            <TreeView />
+            <Inspector />
+          </SplitPane>
+        </SplitPane>
+      </SplitPane>
     </SaucerEditorProvider>
   );
 });

@@ -8,7 +8,7 @@ export const Inspector: React.FC = React.memo(() => {
   const Editor = currentCup?.editor;
 
   return (
-    <div>
+    <div className="saucer-editor-inspector">
       <p>Saucer Layout Inspector</p>
 
       <TeaAttrsContext.Provider value={currentTeaAttrs}>
