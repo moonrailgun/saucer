@@ -1,10 +1,10 @@
-import { setCupAvailable } from '../slice/cups';
+import { setAvailableCup } from '../slice/cups';
 import type { SaucerStoreType } from './type';
 
 export class SaucerStoreHelper {
   constructor(private store: SaucerStoreType) {}
 
-  setCupAvailable(cupName: string) {
-    this.store.dispatch(setCupAvailable(cupName));
+  setAvailableCup(availableCupNames: string[]) {
+    this.store.dispatch(setAvailableCup(availableCupNames));
   }
 }

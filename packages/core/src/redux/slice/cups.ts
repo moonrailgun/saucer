@@ -12,10 +12,10 @@ export const cupsSlice = createSlice({
   name: 'cups',
   initialState: cupsInitialState,
   reducers: {
-    setCupAvailable(state, action: PayloadAction<string>) {
-      state.availableCup.push(action.payload);
+    setAvailableCup(state, action: PayloadAction<string[]>) {
+      state.availableCup = action.payload ?? [];
     },
   },
 });
 
-export const { setCupAvailable } = cupsSlice.actions;
+export const { setAvailableCup } = cupsSlice.actions;

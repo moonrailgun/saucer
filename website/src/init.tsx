@@ -27,5 +27,4 @@ regCup({
   },
 });
 
-saucerStoreHelper.setCupAvailable('Container');
-saucerStoreHelper.setCupAvailable('Button');
+saucerStoreHelper.setAvailableCup(['Container', 'Button']);
