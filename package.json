@@ -29,7 +29,7 @@
     "start": "cd website && yarn start",
     "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
-    "build:watch": "lerna run build:watch --parallel --scope=@saucerjs/core --scope=@saucerjs/editor",
+    "build:watch": "lerna run build:watch --parallel --scope=@saucerjs/*",
     "build:style": "lerna run build:style",
     "release": "lerna run build && lerna publish",
     "test": "jest"

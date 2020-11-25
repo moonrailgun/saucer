@@ -1,4 +1,5 @@
 import { regCup, saucerStoreHelper } from '@saucerjs/core';
+import { CSSEditor } from '@saucerjs/css-editor';
 import React from 'react';
 
 regCup({
@@ -10,7 +11,13 @@ regCup({
     return <div style={{ minHeight: 100 }}>{props.children}</div>;
   },
   editor: () => {
-    return <div>这里是容器的属性编辑器</div>;
+    return (
+      <div>
+        <div>这里是容器的属性编辑器</div>
+
+        <CSSEditor />
+      </div>
+    );
   },
 });
 
@@ -23,7 +30,12 @@ regCup({
     return <button>按钮</button>;
   },
   editor: () => {
-    return <div>这里是按钮的属性编辑器</div>;
+    return (
+      <div>
+        <div>这里是按钮的属性编辑器</div>
+        <CSSEditor />
+      </div>
+    );
   },
 });
 
