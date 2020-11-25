@@ -9358,11 +9358,6 @@ run-async@^2.2.0:
   resolved "https://registry.npm.taobao.org/run-async/download/run-async-2.4.1.tgz?cache=0&sync_timestamp=1587966119578&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Frun-async%2Fdownload%2Frun-async-2.4.1.tgz#8440eccf99ea3e70bd409d49aab88e10c189a455"
   integrity sha1-hEDsz5nqPnC9QJ1JqriOEMGJpFU=
 
-run-p@0.0.0:
-  version "0.0.0"
-  resolved "https://registry.npm.taobao.org/run-p/download/run-p-0.0.0.tgz#716a55bd120277a9d90da5f82333b70b918088f2"
-  integrity sha1-cWpVvRICd6nZDaX4IzO3C5GAiPI=
-
 run-queue@^1.0.0, run-queue@^1.0.3:
   version "1.0.3"
   resolved "https://registry.npm.taobao.org/run-queue/download/run-queue-1.0.3.tgz#e848396f057d223f24386924618e25694161ec47"

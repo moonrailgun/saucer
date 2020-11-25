@@ -20,7 +20,7 @@
     "url": "git+https://github.com/moonrailgun/saucer.git"
   },
   "scripts": {
-    "build": "npm run clean && run-p build:*",
+    "build": "yarn run clean && yarn run build:esm && yarn run build:cjs",
     "build:esm": "tsc -p tsconfig.json --target ES5 --module ESNext --outDir esm",
     "build:cjs": "tsc -p tsconfig.json --target ES5 --module commonjs --outDir lib",
     "build:watch": "yarn run build:cjs --watch",

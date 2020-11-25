@@ -22,15 +22,16 @@
     "lerna": "^3.22.1",
     "lint-staged": "^10.5.1",
     "prettier": "^2.1.2",
-    "run-p": "0.0.0",
     "ts-jest": "^26.4.4",
     "typescript": "^4.0.5"
   },
   "scripts": {
     "start": "cd website && yarn start",
     "bootstrap": "lerna bootstrap",
+    "build": "lerna run build",
     "build:watch": "lerna run build:watch --parallel --scope=@saucer/core --scope=@saucer/editor",
     "build:style": "lerna run build:style",
+    "release": "lerna run build && lerna publish",
     "test": "jest"
   },
   "husky": {
