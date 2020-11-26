@@ -1,5 +1,3 @@
-export const TemplateItemSymbol = Symbol('TemplateItem');
+export const CupItemSymbol = Symbol('CupItem');
 
-export const LeafNodeSymbol = Symbol('LeafNodeSymbol');
-
-export const ContainerNodeSymbol = Symbol('ContainerNodeSymbol');
+export const TeaItemSymbol = Symbol('TeaItem');

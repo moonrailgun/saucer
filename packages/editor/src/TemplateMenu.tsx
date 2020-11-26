@@ -1,7 +1,7 @@
 import React from 'react';
 import { findCup, useAvailableCupsName, CupType } from '@saucerjs/core';
 import { useDrag } from 'react-dnd';
-import { TemplateItemSymbol } from './symbol';
+import { CupItemSymbol } from './symbol';
 import type { DragObject } from './types';
 
 const TemplateMenuItem: React.FC<{
@@ -9,7 +9,7 @@ const TemplateMenuItem: React.FC<{
 }> = React.memo((props) => {
   const { cup } = props;
   const [{ opacity }, dragRef] = useDrag({
-    item: { type: TemplateItemSymbol, name: cup.name } as DragObject,
+    item: { type: CupItemSymbol, name: cup.name } as DragObject,
     collect: (monitor) => ({
       opacity: monitor.isDragging() ? 0.5 : 1,
     }),

@@ -1,3 +1,4 @@
+// https://github.com/ant-motion/editor-list/pull/12
 declare module 'rc-editor-list' {
   import type { Component } from 'react';
   import type { CollapseProps } from 'antd/lib/collapse';

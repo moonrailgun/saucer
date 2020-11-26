@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import type { ASTNode } from '@saucerjs/core';
 import { DropIndicator } from '../DropIndicator';
 import { useCurrentTeaId, useCurrentTeaAction } from '@saucerjs/core';
-import { useDragAndDrop } from './useDragAndDrop';
+import { useDragAndDrop } from '../../hooks/useDragAndDrop';
 
 interface RenderWrapperProps {
   path: string;
@@ -11,15 +11,22 @@ interface RenderWrapperProps {
 }
 export const RenderWrapper: React.FC<RenderWrapperProps> = React.memo(
   (props) => {
-    const { tea } = props;
+    const { path, tea } = props;
     const type = tea.type;
     const currentSelectedTeaId = useCurrentTeaId();
     const isSelected = tea.id === currentSelectedTeaId;
     const { setCurrentTeaId } = useCurrentTeaAction();
 
-    const { dndRef, isOverCurrent, dragName, dndClassName } = useDragAndDrop(
-      props
-    );
+    const {
+      dndRef,
+      isOverCurrent,
+      dragName,
+      dndClassName,
+      dndStyle,
+    } = useDragAndDrop({
+      path,
+      tea,
+    });
 
     const handleClick = useCallback(
       (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -48,6 +55,7 @@ export const RenderWrapper: React.FC<RenderWrapperProps> = React.memo(
           'saucer-render-wrapper__selected': isSelected,
           'saucer-render-wrapper__hover': isOverCurrent,
         })}
+        style={dndStyle}
         onClick={handleClick}
       >
         {el}

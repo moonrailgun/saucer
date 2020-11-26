@@ -1,14 +1,19 @@
-import { findCup, useASTDispatchAction } from '@saucerjs/core';
+import { findCup, useASTDispatchAction, ASTNode } from '@saucerjs/core';
 import { useCallback, useMemo, useRef, useState } from 'react';
-import { useDrop } from 'react-dnd';
-import { TemplateItemSymbol } from '../../symbol';
-import type { DragObject } from '../../types';
-import type { RenderWrapperProps } from './types';
+import { useDrag, useDrop } from 'react-dnd';
+import { CupItemSymbol, TeaItemSymbol } from '../symbol';
+import type { DragObject } from '../types';
+import type { SourceType } from 'dnd-core';
+
+interface UseDragAndDropProps {
+  path: string;
+  tea: ASTNode;
+}
 
 /**
  * render wrapper dnd event hooks.
  */
-export function useDragAndDrop(props: RenderWrapperProps) {
+export function useDragAndDrop(props: UseDragAndDropProps) {
   const { path, tea } = props;
   const teaType = tea.type;
   const {
@@ -22,21 +27,27 @@ export function useDragAndDrop(props: RenderWrapperProps) {
   );
 
   const handleDrop = useCallback(
-    (cupName: string) => {
-      const cup = findCup(cupName);
-      if (cup === null) {
-        console.error('Cannot find cup by name:' + cupName);
-        return;
-      }
-
-      if (teaType === 'container') {
-        dispatchAppendChildren(path, cup.type, cup.name);
-      } else {
-        if (hoverDirection === 'top') {
-          dispatchInsertBefore(path, cup.type, cup.name);
-        } else {
-          dispatchInsertAfter(path, cup.type, cup.name);
+    (dropType: SourceType, cupName: string) => {
+      if (dropType === CupItemSymbol) {
+        // Create new tea
+        const cup = findCup(cupName);
+        if (cup === null) {
+          console.error('Cannot find cup by name:' + cupName);
+          return;
         }
+
+        if (teaType === 'container') {
+          dispatchAppendChildren(path, cup.type, cup.name);
+        } else {
+          if (hoverDirection === 'top') {
+            dispatchInsertBefore(path, cup.type, cup.name);
+          } else {
+            dispatchInsertAfter(path, cup.type, cup.name);
+          }
+        }
+      } else if (dropType === TeaItemSymbol) {
+        // Move existed tea
+        console.log('TODO: move path');
       }
     },
     [
@@ -49,8 +60,15 @@ export function useDragAndDrop(props: RenderWrapperProps) {
     ]
   );
 
+  const [{ opacity }, dragRef] = useDrag({
+    item: { type: TeaItemSymbol, teaId: tea.id },
+    collect: (monitor) => ({
+      opacity: monitor.isDragging() ? 0.5 : 1,
+    }),
+  });
+
   const [{ isOverCurrent, dragName }, dropRef] = useDrop({
-    accept: [TemplateItemSymbol],
+    accept: [CupItemSymbol, TeaItemSymbol],
     drop: (item: DragObject, monitor) => {
       const didDrop = monitor.didDrop();
       if (didDrop) {
@@ -58,7 +76,7 @@ export function useDragAndDrop(props: RenderWrapperProps) {
         return;
       }
 
-      handleDrop(item.name);
+      handleDrop(item.type, item.name);
     },
     hover: (item, monitor) => {
       // Determine rectangle on screen
@@ -89,7 +107,7 @@ export function useDragAndDrop(props: RenderWrapperProps) {
     }),
   });
 
-  const dndRef = dropRef(ref);
+  const dndRef = dragRef(dropRef(ref));
 
   const dndClassName = useMemo(() => {
     if (!isOverCurrent) {
@@ -103,5 +121,7 @@ export function useDragAndDrop(props: RenderWrapperProps) {
     return `saucer-render-wrapper__hover-${hoverDirection}`;
   }, [isOverCurrent, hoverDirection]);
 
-  return { dndRef, isOverCurrent, dragName, dndClassName };
+  const dndStyle: React.CSSProperties = { opacity };
+
+  return { dndRef, isOverCurrent, dragName, dndClassName, dndStyle };
 }
