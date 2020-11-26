@@ -20,7 +20,11 @@ export const SaucerEditor: React.FC = React.memo(() => {
         <SplitPane split="vertical" primary="second" minSize={240}>
           <Viewport />
 
-          <SplitPane split="horizontal" minSize={240}>
+          <SplitPane
+            split="horizontal"
+            minSize={240}
+            pane2Style={{ overflow: 'auto' }}
+          >
             <TreeView />
             <Inspector />
           </SplitPane>

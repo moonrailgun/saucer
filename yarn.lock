@@ -2619,7 +2619,7 @@ ansi-to-html@^0.6.4:
   dependencies:
     entities "^1.1.2"
 
-antd@^4.0.1:
+antd@^4.0.1, antd@^4.8.5:
   version "4.8.5"
   resolved "https://registry.npmjs.org/antd/-/antd-4.8.5.tgz#eb0af8154a6dffb070c016b344d4b49b6910ce4f"
   integrity sha512-QN8//mMToHo1u7gRThbVYKW9rqdN+2x/5PAk5d76MkeALezE3J2Tf4mm2+COUf0qUNiV0ZNtdcLY3weTVlKpDg==
@@ -5892,6 +5892,11 @@ init-package-json@^1.10.3:
     semver "2.x || 3.x || 4 || 5"
     validate-npm-package-license "^3.0.1"
     validate-npm-package-name "^3.0.0"
+
+inline-style-parser@0.1.1:
+  version "0.1.1"
+  resolved "https://registry.npmjs.org/inline-style-parser/-/inline-style-parser-0.1.1.tgz#ec8a3b429274e9c0a1f1c4ffa9453a7fef72cea1"
+  integrity sha512-7NXolsK4CAS5+xvdj5OMMbI962hU/wvwoxk+LWR9Ek9bVtyuuYScDN6eS0rUm6TxApFpw7CX1o4uJzcd4AyD3Q==
 
 inquirer@^6.2.0:
   version "6.5.2"
@@ -10897,6 +10902,13 @@ strong-log-transformer@^2.0.0:
     duplexer "^0.1.1"
     minimist "^1.2.0"
     through "^2.3.4"
+
+style-to-object@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.npmjs.org/style-to-object/-/style-to-object-0.3.0.tgz#b1b790d205991cc783801967214979ee19a76e46"
+  integrity sha512-CzFnRRXhzWIdItT3OmF8SQfWyahHhjq3HwcMNCNLn+N7klOOqPjMeG/4JSu77D7ypZdGvSzvkrbyeTMizz2VrA==
+  dependencies:
+    inline-style-parser "0.1.1"
 
 style-utils@~0.2.0:
   version "0.2.1"

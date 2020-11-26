@@ -31,11 +31,13 @@
     "url": "https://github.com/moonrailgun/saucer/issues"
   },
   "devDependencies": {
+    "antd": "^4.8.5",
     "react": "17.0.1",
     "react-dom": "17.0.1"
   },
   "dependencies": {
     "@saucerjs/core": "^0.0.2",
-    "rc-editor-list": "^2.0.1"
+    "rc-editor-list": "^2.0.1",
+    "style-to-object": "^0.3.0"
   }
 }
