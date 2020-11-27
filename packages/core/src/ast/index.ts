@@ -145,15 +145,59 @@ export function findNodeById(root: ASTNode, id: string): ASTNode | null {
 }
 
 /**
+ * Move node by path
+ * @param root
+ * @param fromPath
+ * @param toPath
+ */
+export function moveNodeByPath(
+  root: ASTContainerNode,
+  fromPath: string,
+  toPath: string
+): void {
+  const fromTarget = findTargetNodeByPath(root, fromPath);
+  const toTarget = findTargetNodeByPath(root, toPath);
+
+  if (fromTarget === false || toTarget === false) {
+    // Skip if cannot find by from path or to path
+    return;
+  }
+
+  if (fromTarget.parent === toTarget.parent) {
+    // In same level
+    // Keep index of Array is not modify
+    if (fromTarget.targetIndex > toTarget.targetIndex) {
+      fromTarget.parent.children.splice(fromTarget.targetIndex, 1);
+      toTarget.parent.children.splice(
+        toTarget.targetIndex,
+        0,
+        fromTarget.target
+      );
+    } else if (fromTarget.targetIndex < toTarget.targetIndex) {
+      toTarget.parent.children.splice(
+        toTarget.targetIndex,
+        0,
+        fromTarget.target
+      );
+      fromTarget.parent.children.splice(fromTarget.targetIndex, 1);
+    }
+  } else {
+    fromTarget.parent.children.splice(fromTarget.targetIndex, 1);
+    toTarget.parent.children.splice(toTarget.targetIndex, 0, fromTarget.target);
+  }
+}
+
+/**
  * traverse and update tree, return new tree
  * @param root tree root node
  * @param id node id
  */
+type TraverseUpdater = ASTNode & Partial<Pick<ASTContainerNode, 'children'>>;
 export function traverseUpdateTree<T = ASTNode>(
   root: ASTNode,
-  updater: (node: ASTNode) => any
+  updater: (node: TraverseUpdater) => any
 ): T {
-  function loop(node: ASTNode, updater: (node: ASTNode) => any) {
+  function loop(node: ASTNode, updater: (node: TraverseUpdater) => any) {
     if (!isContainerNode(node)) {
       return updater(node);
     }

@@ -5,6 +5,7 @@ import {
   appendChildren,
   insertAfter,
   insertBefore,
+  moveByPath,
   removeById,
 } from '../slice/ast';
 
@@ -75,10 +76,18 @@ export function useASTDispatchAction() {
     dispatch(removeById({ nodeId }));
   }, []);
 
+  const dispatchMoveNodeById = useCallback(
+    (fromPath: string, toPath: string) => {
+      dispatch(moveByPath({ fromPath, toPath }));
+    },
+    []
+  );
+
   return {
     dispatchInsertBefore,
     dispatchInsertAfter,
     dispatchAppendChildren,
     dispatchRemoveNodeById,
+    dispatchMoveNodeById,
   };
 }

@@ -3,11 +3,14 @@ import {
   findTargetNodeById,
   findTargetNodeByPath,
   isContainerNode,
+  moveNodeByPath,
   traverseUpdateTree,
 } from '../index';
 import type { ASTAttrs, ASTContainerNode, ASTNode, ASTType } from '../types';
+import _cloneDeep from 'lodash/cloneDeep';
 
 const cupName = 'testcup';
+const attrs = {};
 
 describe('createASTNode', () => {
   const containerType = 'container' as const;
@@ -23,7 +26,7 @@ describe('createASTNode', () => {
         id: expect.any(String),
         type: containerType,
         cupName: 'testCup',
-        attrs: {},
+        attrs,
         children: [],
       },
     ],
@@ -35,7 +38,7 @@ describe('createASTNode', () => {
         id: expect.any(String),
         type: containerType,
         cupName: 'testCup2',
-        attrs: {},
+        attrs,
         children: [],
       },
     ],
@@ -47,7 +50,7 @@ describe('createASTNode', () => {
         id: expect.any(String),
         type: containerType,
         cupName: 'testCup',
-        attrs: {},
+        attrs,
         children: [],
       },
     ],
@@ -80,7 +83,7 @@ describe('createASTNode', () => {
         id: expect.any(String),
         type: leafType,
         cupName: 'testCup',
-        attrs: {},
+        attrs,
       },
     ],
     [
@@ -91,7 +94,7 @@ describe('createASTNode', () => {
         id: expect.any(String),
         type: leafType,
         cupName: 'testCup2',
-        attrs: {},
+        attrs,
       },
     ],
     [
@@ -102,7 +105,7 @@ describe('createASTNode', () => {
         id: expect.any(String),
         type: leafType,
         cupName: 'testCup',
-        attrs: {},
+        attrs,
       },
     ],
     [
@@ -128,26 +131,26 @@ describe('findTargetNode', () => {
   const testAST: ASTContainerNode = {
     id: '1',
     type: 'container',
-    attrs: {},
+    attrs,
     cupName,
     children: [
       {
         id: '2',
         type: 'container',
-        attrs: {},
+        attrs,
         cupName,
         children: [
           {
             id: '4',
             type: 'container',
-            attrs: {},
+            attrs,
             cupName,
             children: [],
           },
           {
             id: '5',
             type: 'leaf',
-            attrs: {},
+            attrs,
             cupName,
           },
         ],
@@ -155,7 +158,7 @@ describe('findTargetNode', () => {
       {
         id: '3',
         type: 'leaf',
-        attrs: {},
+        attrs,
         cupName,
       },
     ],
@@ -222,7 +225,7 @@ describe('isContainerNode', () => {
         type: 'container',
         children: [],
         id: '',
-        attrs: {},
+        attrs,
       })
     ).toBe(true);
   });
@@ -233,9 +236,242 @@ describe('isContainerNode', () => {
         cupName: '',
         type: 'leaf',
         id: '',
-        attrs: {},
+        attrs,
       })
     ).toBe(false);
+  });
+});
+
+describe('moveNodeByPath', () => {
+  const testAST: ASTContainerNode = {
+    id: '1',
+    type: 'container',
+    attrs,
+    cupName,
+    children: [
+      {
+        id: '2',
+        type: 'container',
+        attrs,
+        cupName,
+        children: [
+          {
+            id: '5',
+            type: 'container',
+            attrs,
+            cupName,
+            children: [],
+          },
+          {
+            id: '6',
+            type: 'leaf',
+            attrs,
+            cupName,
+          },
+          {
+            id: '7',
+            type: 'leaf',
+            attrs,
+            cupName,
+          },
+          {
+            id: '8',
+            type: 'leaf',
+            attrs,
+            cupName,
+          },
+        ],
+      },
+      {
+        id: '3',
+        type: 'leaf',
+        attrs,
+        cupName,
+      },
+      {
+        id: '4',
+        type: 'leaf',
+        attrs,
+        cupName,
+      },
+    ],
+  };
+
+  test.each([
+    [
+      'no move, 1 => 1',
+      '1',
+      '1',
+      {
+        id: '1',
+        children: [
+          {
+            id: '2',
+            children: [
+              {
+                id: '5',
+              },
+              {
+                id: '6',
+              },
+              {
+                id: '7',
+              },
+              {
+                id: '8',
+              },
+            ],
+          },
+          {
+            id: '3',
+          },
+          {
+            id: '4',
+          },
+        ],
+      },
+    ],
+    [
+      'no move, 1 => 2',
+      '1',
+      '2',
+      {
+        id: '1',
+        children: [
+          {
+            id: '2',
+            children: [
+              {
+                id: '5',
+              },
+              {
+                id: '6',
+              },
+              {
+                id: '7',
+              },
+              {
+                id: '8',
+              },
+            ],
+          },
+          {
+            id: '3',
+          },
+          {
+            id: '4',
+          },
+        ],
+      },
+    ],
+    [
+      'simple move',
+      '1',
+      '3',
+      {
+        id: '1',
+        children: [
+          {
+            id: '2',
+            children: [
+              {
+                id: '5',
+              },
+              {
+                id: '6',
+              },
+              {
+                id: '7',
+              },
+              {
+                id: '8',
+              },
+            ],
+          },
+          {
+            id: '4',
+          },
+          {
+            id: '3',
+          },
+        ],
+      },
+    ],
+    [
+      'move with children',
+      '0',
+      '2',
+      {
+        id: '1',
+        children: [
+          {
+            id: '3',
+          },
+          {
+            id: '2',
+            children: [
+              {
+                id: '5',
+              },
+              {
+                id: '6',
+              },
+              {
+                id: '7',
+              },
+              {
+                id: '8',
+              },
+            ],
+          },
+          {
+            id: '4',
+          },
+        ],
+      },
+    ],
+    [
+      'move in deep children',
+      '0.1',
+      '0.3',
+      {
+        id: '1',
+        children: [
+          {
+            id: '2',
+            children: [
+              {
+                id: '5',
+              },
+              {
+                id: '7',
+              },
+              {
+                id: '6',
+              },
+              {
+                id: '8',
+              },
+            ],
+          },
+          {
+            id: '3',
+          },
+          {
+            id: '4',
+          },
+        ],
+      },
+    ],
+  ])('%s', (desc, fromPath, toPath, output: any) => {
+    const tree = _cloneDeep(testAST);
+    moveNodeByPath(tree, fromPath, toPath);
+    expect(
+      traverseUpdateTree(tree, (item) => ({
+        id: item.id,
+        children: item.children,
+      }))
+    ).toMatchObject(output);
   });
 });
 
@@ -243,20 +479,20 @@ describe('traverseUpdateTree', () => {
   const testAST: ASTContainerNode = {
     id: '1',
     type: 'container',
-    attrs: {},
+    attrs,
     cupName,
     children: [
       {
         id: '2',
         type: 'container',
-        attrs: {},
+        attrs,
         cupName,
         children: [],
       },
       {
         id: '3',
         type: 'leaf',
-        attrs: {},
+        attrs,
         cupName,
       },
     ],
@@ -271,20 +507,20 @@ describe('traverseUpdateTree', () => {
     expect(testAST).toMatchObject({
       id: '1',
       type: 'container',
-      attrs: {},
+      attrs,
       cupName,
       children: [
         {
           id: '2',
           type: 'container',
-          attrs: {},
+          attrs,
           cupName,
           children: [],
         },
         {
           id: '3',
           type: 'leaf',
-          attrs: {},
+          attrs,
           cupName,
         },
       ],
@@ -295,14 +531,14 @@ describe('traverseUpdateTree', () => {
     expect(newTree).toMatchObject({
       id: '1',
       type: 'container',
-      attrs: {},
+      attrs,
       cupName: 'testcup',
       extra: 'extra1',
       children: [
         {
           id: '2',
           type: 'container',
-          attrs: {},
+          attrs,
           cupName: 'testcup',
           children: [],
           extra: 'extra2',
@@ -310,7 +546,7 @@ describe('traverseUpdateTree', () => {
         {
           id: '3',
           type: 'leaf',
-          attrs: {},
+          attrs,
           cupName: 'testcup',
           extra: 'extra3',
         },

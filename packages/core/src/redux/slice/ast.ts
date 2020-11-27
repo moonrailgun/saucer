@@ -12,6 +12,7 @@ import {
   findTargetNodeById,
   findTargetNodeByPath,
   isContainerNode,
+  moveNodeByPath,
 } from '../../ast';
 
 export type ASTState = ASTContainerNode;
@@ -131,6 +132,20 @@ export const astSlice = createSlice({
       const { parent, targetIndex } = findRes;
       parent.children.splice(targetIndex, 1);
     },
+
+    /**
+     * Move node by path
+     */
+    moveByPath(
+      state,
+      action: PayloadAction<{
+        fromPath: string;
+        toPath: string;
+      }>
+    ) {
+      const { fromPath, toPath } = action.payload;
+      moveNodeByPath(state, fromPath, toPath);
+    },
   },
 });
 
@@ -139,4 +154,5 @@ export const {
   insertAfter,
   appendChildren,
   removeById,
+  moveByPath,
 } = astSlice.actions;
