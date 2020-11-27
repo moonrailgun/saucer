@@ -1,9 +1,13 @@
-import { findCup, useASTDispatchAction, ASTNode } from '@saucerjs/core';
+import {
+  findCup,
+  useASTDispatchAction,
+  ASTNode,
+  getAfterPath,
+} from '@saucerjs/core';
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { CupItemSymbol, TeaItemSymbol } from '../symbol';
 import type { DragObject } from '../types';
-import type { SourceType } from 'dnd-core';
 
 interface UseDragAndDropProps {
   path: string;
@@ -20,6 +24,7 @@ export function useDragAndDrop(props: UseDragAndDropProps) {
     dispatchInsertBefore,
     dispatchInsertAfter,
     dispatchAppendChildren,
+    dispatchMoveNodeByPath,
   } = useASTDispatchAction();
   const ref = useRef<HTMLDivElement>(null);
   const [hoverDirection, setHoverDirection] = useState<'bottom' | 'top'>(
@@ -27,9 +32,11 @@ export function useDragAndDrop(props: UseDragAndDropProps) {
   );
 
   const handleDrop = useCallback(
-    (dropType: SourceType, cupName: string) => {
+    (item: DragObject) => {
+      const dropType = item.type;
       if (dropType === CupItemSymbol) {
         // Create new tea
+        const cupName = item.name!;
         const cup = findCup(cupName);
         if (cup === null) {
           console.error('Cannot find cup by name:' + cupName);
@@ -47,7 +54,14 @@ export function useDragAndDrop(props: UseDragAndDropProps) {
         }
       } else if (dropType === TeaItemSymbol) {
         // Move existed tea
-        console.log('TODO: move path');
+        const fromPath = item.path!;
+        const toPath = path;
+
+        if (hoverDirection === 'top') {
+          dispatchMoveNodeByPath(fromPath, toPath);
+        } else {
+          dispatchMoveNodeByPath(fromPath, getAfterPath(toPath));
+        }
       }
     },
     [
@@ -57,11 +71,12 @@ export function useDragAndDrop(props: UseDragAndDropProps) {
       dispatchInsertBefore,
       dispatchInsertAfter,
       dispatchAppendChildren,
+      dispatchMoveNodeByPath,
     ]
   );
 
   const [{ opacity }, dragRef] = useDrag({
-    item: { type: TeaItemSymbol, teaId: tea.id },
+    item: { type: TeaItemSymbol, path } as DragObject,
     collect: (monitor) => ({
       opacity: monitor.isDragging() ? 0.5 : 1,
     }),
@@ -76,7 +91,7 @@ export function useDragAndDrop(props: UseDragAndDropProps) {
         return;
       }
 
-      handleDrop(item.type, item.name);
+      handleDrop(item);
     },
     hover: (item, monitor) => {
       // Determine rectangle on screen

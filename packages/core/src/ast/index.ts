@@ -9,6 +9,7 @@ import shortid from 'shortid';
 import _get from 'lodash/get';
 import _has from 'lodash/has';
 import _cloneDeep from 'lodash/cloneDeep';
+import _isNil from 'lodash/isNil';
 
 export function createASTNode(
   type: ASTType,
@@ -70,6 +71,11 @@ export function findTargetNodeByPath(
     return false;
   }
   const target = _get(parent, 'children.' + targetIndex);
+
+  if (_isNil(target)) {
+    console.error('Cannot find node in path:', path);
+    return false;
+  }
 
   return { parent, target, targetIndex };
 }
@@ -210,4 +216,22 @@ export function traverseUpdateTree<T = ASTNode>(
   const newRoot = loop(_cloneDeep(root), updater);
 
   return (newRoot as any) as T;
+}
+
+/**
+ * Increase last index of path
+ */
+export function getAfterPath(originPath: string): string {
+  if (originPath === '') {
+    return '';
+  }
+
+  const indexs = originPath
+    .split('.')
+    .filter((s) => typeof s === 'string')
+    .map(Number);
+
+  indexs[indexs.length - 1]++;
+
+  return indexs.join('.');
 }

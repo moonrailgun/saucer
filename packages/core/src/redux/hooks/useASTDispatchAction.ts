@@ -76,7 +76,7 @@ export function useASTDispatchAction() {
     dispatch(removeById({ nodeId }));
   }, []);
 
-  const dispatchMoveNodeById = useCallback(
+  const dispatchMoveNodeByPath = useCallback(
     (fromPath: string, toPath: string) => {
       dispatch(moveByPath({ fromPath, toPath }));
     },
@@ -88,6 +88,6 @@ export function useASTDispatchAction() {
     dispatchInsertAfter,
     dispatchAppendChildren,
     dispatchRemoveNodeById,
-    dispatchMoveNodeById,
+    dispatchMoveNodeByPath,
   };
 }
