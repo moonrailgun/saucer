@@ -9,6 +9,7 @@ import type {
 import _get from 'lodash/get';
 import {
   createASTNode,
+  findTargetNodeById,
   findTargetNodeByPath,
   isContainerNode,
 } from '../../ast';
@@ -111,7 +112,31 @@ export const astSlice = createSlice({
         return;
       }
     },
+
+    /**
+     * remove node from tree by id
+     */
+    removeById(
+      state,
+      action: PayloadAction<{
+        nodeId: string;
+      }>
+    ) {
+      const { nodeId } = action.payload;
+      const findRes = findTargetNodeById(state, nodeId);
+      if (findRes === false) {
+        return;
+      }
+
+      const { parent, targetIndex } = findRes;
+      parent.children.splice(targetIndex, 1);
+    },
   },
 });
 
-export const { insertBefore, insertAfter, appendChildren } = astSlice.actions;
+export const {
+  insertBefore,
+  insertAfter,
+  appendChildren,
+  removeById,
+} = astSlice.actions;

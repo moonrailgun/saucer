@@ -1,5 +1,6 @@
 import {
   createASTNode,
+  findTargetNodeById,
   findTargetNodeByPath,
   isContainerNode,
   traverseUpdateTree,
@@ -123,7 +124,7 @@ describe('createASTNode', () => {
   );
 });
 
-describe('findTargetNodeByPath', () => {
+describe('findTargetNode', () => {
   const testAST: ASTContainerNode = {
     id: '1',
     type: 'container',
@@ -160,22 +161,56 @@ describe('findTargetNodeByPath', () => {
     ],
   };
 
-  test.each([
-    ['', '1', '1', 0],
-    ['0', '1', '2', 0],
-    ['1', '1', '3', 1],
-    ['0.0', '2', '4', 0],
-    ['0.1', '2', '5', 1],
-  ])('%s => %s,%s,%s', (path, findParentId, findTargetId, findTargetIndex) => {
-    const findRes = findTargetNodeByPath(testAST, path);
-    expect(findRes).not.toBe(false);
-    if (findRes === false) {
-      throw new Error('Cannot be false');
-    }
+  describe('ByPath', () => {
+    test.each([
+      ['', '1', '1', 0],
+      ['0', '1', '2', 0],
+      ['1', '1', '3', 1],
+      ['0.0', '2', '4', 0],
+      ['0.1', '2', '5', 1],
+    ])(
+      '%s => %s,%s,%s',
+      (path, findParentId, findTargetId, findTargetIndex) => {
+        const findRes = findTargetNodeByPath(testAST, path);
+        expect(findRes).not.toBe(false);
+        if (findRes === false) {
+          throw new Error('Cannot be false');
+        }
 
-    expect(findRes.parent.id).toBe(findParentId);
-    expect(findRes.target.id).toBe(findTargetId);
-    expect(findRes.targetIndex).toBe(findTargetIndex);
+        expect(findRes.parent.id).toBe(findParentId);
+        expect(findRes.target.id).toBe(findTargetId);
+        expect(findRes.targetIndex).toBe(findTargetIndex);
+      }
+    );
+  });
+
+  describe('ByNodeId', () => {
+    test.each([
+      ['2', '1', '2', 0],
+      ['3', '1', '3', 1],
+      ['4', '2', '4', 0],
+      ['5', '2', '5', 1],
+    ])(
+      '%s => %s,%s,%s',
+      (nodeId, findParentId, findTargetId, findTargetIndex) => {
+        const findRes = findTargetNodeById(testAST, nodeId);
+        expect(findRes).not.toBe(false);
+        if (findRes === false) {
+          throw new Error('Cannot be false');
+        }
+
+        expect(findRes.parent.id).toBe(findParentId);
+        expect(findRes.target.id).toBe(findTargetId);
+        expect(findRes.targetIndex).toBe(findTargetIndex);
+      }
+    );
+
+    describe('to be false', () => {
+      test.each([['1'], ['any'], [2 as any]])('%o', (nodeId: string) => {
+        const findRes = findTargetNodeById(testAST, nodeId);
+        expect(findRes).toBe(false);
+      });
+    });
   });
 });
 

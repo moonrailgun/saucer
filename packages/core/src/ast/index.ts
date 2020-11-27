@@ -75,6 +75,45 @@ export function findTargetNodeByPath(
 }
 
 /**
+ * Find node by id in a tree which include more info
+ * @param root tree root
+ * @param nodeId find node id
+ */
+export function findTargetNodeById(
+  root: ASTContainerNode,
+  nodeId: string
+): { parent: ASTContainerNode; target: ASTNode; targetIndex: number } | false {
+  if (typeof nodeId !== 'string') {
+    return false;
+  }
+
+  if (root.type !== 'container') {
+    return false;
+  }
+
+  const findIndex = root.children.findIndex((item) => item.id === nodeId);
+  if (findIndex >= 0) {
+    return {
+      parent: root,
+      target: root.children[findIndex],
+      targetIndex: findIndex,
+    };
+  } else {
+    // 没找到. 尝试迭代
+    for (const sub of root.children) {
+      if (sub.type === 'container') {
+        const r = findTargetNodeById(sub, nodeId);
+        if (r !== false) {
+          return r;
+        }
+      }
+    }
+  }
+
+  return false;
+}
+
+/**
  * Whether a node is container
  */
 export function isContainerNode(node: ASTNode): node is ASTContainerNode {

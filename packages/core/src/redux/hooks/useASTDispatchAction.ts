@@ -1,8 +1,16 @@
 import { useCallback } from 'react';
 import type { ASTAttrs, ASTType } from '../../ast/types';
 import { useSaucerDispatch } from '../context';
-import { appendChildren, insertAfter, insertBefore } from '../slice/ast';
+import {
+  appendChildren,
+  insertAfter,
+  insertBefore,
+  removeById,
+} from '../slice/ast';
 
+/**
+ * Saucer AST modify actions
+ */
 export function useASTDispatchAction() {
   const dispatch = useSaucerDispatch();
 
@@ -63,5 +71,14 @@ export function useASTDispatchAction() {
     []
   );
 
-  return { dispatchInsertBefore, dispatchInsertAfter, dispatchAppendChildren };
+  const dispatchRemoveNodeById = useCallback((nodeId: string) => {
+    dispatch(removeById({ nodeId }));
+  }, []);
+
+  return {
+    dispatchInsertBefore,
+    dispatchInsertAfter,
+    dispatchAppendChildren,
+    dispatchRemoveNodeById,
+  };
 }
