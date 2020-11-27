@@ -20,6 +20,7 @@ interface UseDragAndDropProps {
 export function useDragAndDrop(props: UseDragAndDropProps) {
   const { path, tea } = props;
   const teaType = tea.type;
+  const isRoot = path === '';
   const {
     dispatchInsertBefore,
     dispatchInsertAfter,
@@ -122,7 +123,7 @@ export function useDragAndDrop(props: UseDragAndDropProps) {
     }),
   });
 
-  const dndRef = dragRef(dropRef(ref));
+  const dndRef = isRoot ? dropRef(ref) : dragRef(dropRef(ref));
 
   const dndClassName = useMemo(() => {
     if (!isOverCurrent) {

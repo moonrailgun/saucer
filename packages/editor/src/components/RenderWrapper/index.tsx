@@ -13,7 +13,6 @@ export const RenderWrapper: React.FC<RenderWrapperProps> = React.memo(
   (props) => {
     const { path, tea } = props;
     const type = tea.type;
-    const isRoot = path === '';
     const currentSelectedTeaId = useCurrentTeaId();
     const isSelected = tea.id === currentSelectedTeaId;
     const { setCurrentTeaId } = useCurrentTeaAction();
@@ -51,7 +50,7 @@ export const RenderWrapper: React.FC<RenderWrapperProps> = React.memo(
 
     return (
       <div
-        ref={!isRoot ? (dndRef as any) : undefined}
+        ref={dndRef as any}
         className={classNames(dndClassName, 'saucer-render-wrapper', {
           'saucer-render-wrapper__selected': isSelected,
           'saucer-render-wrapper__hover': isOverCurrent,
