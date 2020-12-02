@@ -33,6 +33,20 @@ ReactDom.render(
 );
 ```
 
+## For Develop
+
+#### First of all, Build it
+
+```bash
+yarn run build
+```
+
+#### Check for demo
+
+```bash
+yarn run start
+```
+
 ## Proper Nouns
 
 - `Saucer`: this framework
