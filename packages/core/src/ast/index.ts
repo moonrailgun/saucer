@@ -162,10 +162,24 @@ export function moveNodeByPath(
   toPath: string
 ): void {
   const fromTarget = findTargetNodeByPath(root, fromPath);
-  const toTarget = findTargetNodeByPath(root, toPath);
+  let toTarget = findTargetNodeByPath(root, toPath);
 
-  if (fromTarget === false || toTarget === false) {
-    // Skip if cannot find by from path or to path
+  if (fromTarget === false) {
+    // Skip if cannot find by from path
+    return;
+  }
+
+  if (toTarget === false) {
+    // For move to end of level
+    const tmp = findTargetNodeByPath(root, getFirstPath(toPath));
+    if (tmp === false) {
+      console.warn('Cannot find any node in this level');
+      return;
+    }
+    const parent = tmp.parent;
+    fromTarget.parent.children.splice(fromTarget.targetIndex, 1);
+    parent.children.push(fromTarget.target);
+
     return;
   }
 
@@ -232,6 +246,24 @@ export function getAfterPath(originPath: string): string {
     .map(Number);
 
   indexs[indexs.length - 1]++;
+
+  return indexs.join('.');
+}
+
+/**
+ * Get first index of path in same level
+ */
+export function getFirstPath(originPath: string): string {
+  if (originPath === '') {
+    return '';
+  }
+
+  const indexs = originPath
+    .split('.')
+    .filter((s) => typeof s === 'string')
+    .map(Number);
+
+  indexs[indexs.length - 1] = 0;
 
   return indexs.join('.');
 }
