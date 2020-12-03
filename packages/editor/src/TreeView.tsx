@@ -103,6 +103,7 @@ export const TreeView: React.FC = React.memo(() => {
     <div className="saucer-editor-treeview">
       <Tree
         defaultExpandAll={true}
+        showIcon={false}
         selectedKeys={selectedKeys}
         treeData={treeData}
         draggable={true}
