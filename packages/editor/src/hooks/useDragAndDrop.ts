@@ -3,7 +3,9 @@ import {
   useASTDispatchAction,
   ASTNode,
   getNextPath,
+  resetPathLastIndex,
 } from '@saucerjs/core';
+import type { ASTContainerNode } from '@saucerjs/core/lib/ast/types';
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { CupItemSymbol, TeaItemSymbol } from '../symbol';
@@ -58,10 +60,19 @@ export function useDragAndDrop(props: UseDragAndDropProps) {
         const fromPath = item.path!;
         const toPath = path;
 
-        if (hoverDirection === 'top') {
-          dispatchMoveNodeByPath(fromPath, toPath);
+        if (teaType === 'container') {
+          // Move into container
+          const subLastPath = resetPathLastIndex(
+            `${toPath}.0`,
+            (tea as ASTContainerNode).children.length
+          );
+          dispatchMoveNodeByPath(fromPath, subLastPath);
         } else {
-          dispatchMoveNodeByPath(fromPath, getNextPath(toPath));
+          if (hoverDirection === 'top') {
+            dispatchMoveNodeByPath(fromPath, toPath);
+          } else {
+            dispatchMoveNodeByPath(fromPath, getNextPath(toPath));
+          }
         }
       }
     },
