@@ -2,7 +2,7 @@ import {
   findCup,
   useASTDispatchAction,
   ASTNode,
-  getAfterPath,
+  getNextPath,
 } from '@saucerjs/core';
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
@@ -61,7 +61,7 @@ export function useDragAndDrop(props: UseDragAndDropProps) {
         if (hoverDirection === 'top') {
           dispatchMoveNodeByPath(fromPath, toPath);
         } else {
-          dispatchMoveNodeByPath(fromPath, getAfterPath(toPath));
+          dispatchMoveNodeByPath(fromPath, getNextPath(toPath));
         }
       }
     },

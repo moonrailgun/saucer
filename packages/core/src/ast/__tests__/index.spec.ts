@@ -2,7 +2,7 @@ import {
   createASTNode,
   findTargetNodeById,
   findTargetNodeByPath,
-  getAfterPath,
+  getNextPath,
   isContainerNode,
   moveNodeByPath,
   traverseUpdateTree,
@@ -556,7 +556,7 @@ describe('traverseUpdateTree', () => {
   });
 });
 
-describe('getAfterPath', () => {
+describe('getNextPath', () => {
   test.each([
     ['', ''],
     ['0', '1'],
@@ -564,6 +564,6 @@ describe('getAfterPath', () => {
     ['0.1', '0.2'],
     ['0.1.1', '0.1.2'],
   ])('%s => %s', (input, output) => {
-    expect(getAfterPath(input)).toBe(output);
+    expect(getNextPath(input)).toBe(output);
   });
 });

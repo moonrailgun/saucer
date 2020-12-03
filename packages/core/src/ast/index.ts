@@ -73,7 +73,6 @@ export function findTargetNodeByPath(
   const target = _get(parent, 'children.' + targetIndex);
 
   if (_isNil(target)) {
-    console.error('Cannot find node in path:', path);
     return false;
   }
 
@@ -171,16 +170,18 @@ export function moveNodeByPath(
 
   if (toTarget === false) {
     // For move to end of level
-    const tmp = findTargetNodeByPath(root, getFirstPath(toPath));
-    if (tmp === false) {
-      console.warn('Cannot find any node in this level');
+    const parent = findTargetNodeByPath(root, getParentPath(toPath));
+    if (parent === false) {
+      console.warn('Cannot find parent node in toPath');
+      return;
+    } else if (!isContainerNode(parent.target)) {
+      console.warn('Not a valid parent node');
+      return;
+    } else {
+      fromTarget.parent.children.splice(fromTarget.targetIndex, 1);
+      parent.target.children.push(fromTarget.target);
       return;
     }
-    const parent = tmp.parent;
-    fromTarget.parent.children.splice(fromTarget.targetIndex, 1);
-    parent.children.push(fromTarget.target);
-
-    return;
   }
 
   if (fromTarget.parent === toTarget.parent) {
@@ -212,30 +213,62 @@ export function moveNodeByPath(
  * @param root tree root node
  * @param id node id
  */
-type TraverseUpdater = ASTNode & Partial<Pick<ASTContainerNode, 'children'>>;
+type TraverseUpdaterNode = ASTNode &
+  Partial<Pick<ASTContainerNode, 'children'>>;
+interface TraverseUpdaterInfo {
+  path: string;
+}
+type TraverseUpdater = (
+  node: TraverseUpdaterNode,
+  info: TraverseUpdaterInfo
+) => any;
+
 export function traverseUpdateTree<T = ASTNode>(
   root: ASTNode,
-  updater: (node: TraverseUpdater) => any
+  updater: TraverseUpdater
 ): T {
-  function loop(node: ASTNode, updater: (node: TraverseUpdater) => any) {
+  function loop(node: ASTNode, updater: TraverseUpdater, path: string) {
+    const info = { path };
     if (!isContainerNode(node)) {
-      return updater(node);
+      return updater(node, info);
+    } else {
+      node.children = node.children.map((subNode, i) => {
+        const subPath = path === '' ? String(i) : `${path}.${i}`;
+        return loop(subNode, updater, subPath);
+      });
+      return updater(node, info);
     }
-
-    node.children = node.children.map((node) => loop(node, updater));
-
-    return updater(node);
   }
 
-  const newRoot = loop(_cloneDeep(root), updater);
+  const newRoot = loop(_cloneDeep(root), updater, '');
 
   return (newRoot as any) as T;
 }
 
 /**
+ * Decrease last index of path
+ */
+export function getPrevPath(originPath: string): string {
+  if (originPath === '') {
+    return '';
+  }
+
+  const indexs = originPath
+    .split('.')
+    .filter((s) => typeof s === 'string')
+    .map(Number);
+
+  if (indexs[indexs.length - 1] > 0) {
+    indexs[indexs.length - 1]--;
+  }
+
+  return indexs.join('.');
+}
+
+/**
  * Increase last index of path
  */
-export function getAfterPath(originPath: string): string {
+export function getNextPath(originPath: string): string {
   if (originPath === '') {
     return '';
   }
@@ -264,6 +297,46 @@ export function getFirstPath(originPath: string): string {
     .map(Number);
 
   indexs[indexs.length - 1] = 0;
+
+  return indexs.join('.');
+}
+
+/**
+ * Get parent path
+ */
+export function getParentPath(originPath: string): string {
+  if (originPath === '') {
+    return '';
+  }
+
+  const indexs = originPath
+    .split('.')
+    .filter((s) => typeof s === 'string')
+    .map(Number);
+
+  indexs.pop();
+
+  return indexs.join('.');
+}
+
+/**
+ * resetPathLastIndex
+ * @param lastIndex Last index to reset
+ */
+export function resetPathLastIndex(
+  originPath: string,
+  lastIndex: number
+): string {
+  if (originPath === '') {
+    return '';
+  }
+
+  const indexs = originPath
+    .split('.')
+    .filter((s) => typeof s === 'string')
+    .map(Number);
+
+  indexs[indexs.length - 1] = lastIndex;
 
   return indexs.join('.');
 }
