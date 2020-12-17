@@ -1,11 +1,22 @@
 import type { ASTAttrs } from '@saucerjs/core';
 import React, { useContext } from 'react';
 
-export const TeaAttrsContext = React.createContext<ASTAttrs>({});
+interface TeaAttrsContextProps {
+  currentTeaAttrs: ASTAttrs;
+  setCurrentTeaAttrs: (newAttrs: ASTAttrs) => void;
+}
+
+/**
+ * Tea Attrs Context which can get or set tea attrs.
+ */
+export const TeaAttrsContext = React.createContext<TeaAttrsContextProps>({
+  currentTeaAttrs: {},
+  setCurrentTeaAttrs: () => {},
+});
 TeaAttrsContext.displayName = 'TeaAttrsContext';
 
-export function useTeaAttrs() {
-  const attrs = useContext(TeaAttrsContext);
+export function useTeaAttrsContext(): TeaAttrsContextProps {
+  const context = useContext(TeaAttrsContext);
 
-  return attrs;
+  return context;
 }

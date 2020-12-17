@@ -4,6 +4,7 @@ import { findNodeById } from '../../ast';
 import type { ASTAttrs, ASTNode } from '../../ast/types';
 import { useSaucerDispatch, useSaucerSelector } from '../context';
 import { setCurrentSelectTeaId } from '../slice/editor';
+import { setNodeAttrs } from '../slice/ast';
 
 export function useCurrentTeaId(): string | null {
   const currentSelectedTeaId = useSaucerSelector(
@@ -46,11 +47,24 @@ export function useCurrentTeaCup(): CupType | null {
 }
 
 export function useCurrentTeaAction() {
+  const currentSelectedTeaId = useCurrentTeaId();
   const dispatch = useSaucerDispatch();
 
   const setCurrentTeaId = useCallback((id: string | null) => {
     dispatch(setCurrentSelectTeaId(id));
   }, []);
 
-  return { setCurrentTeaId };
+  const setCurrentTeaAttrs = useCallback(
+    (newAttrs: ASTAttrs) => {
+      if (typeof currentSelectedTeaId !== 'string') {
+        console.warn('Current Tea is not selected');
+        return;
+      }
+
+      dispatch(setNodeAttrs({ nodeId: currentSelectedTeaId, newAttrs }));
+    },
+    [currentSelectedTeaId]
+  );
+
+  return { setCurrentTeaId, setCurrentTeaAttrs };
 }

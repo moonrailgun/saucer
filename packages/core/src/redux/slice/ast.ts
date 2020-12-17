@@ -146,6 +146,33 @@ export const astSlice = createSlice({
       const { fromPath, toPath } = action.payload;
       moveNodeByPath(state, fromPath, toPath);
     },
+
+    /**
+     * Set Node Attrs
+     *
+     * new attrs will append or override origin attrs
+     */
+    setNodeAttrs(
+      state,
+      action: PayloadAction<{
+        nodeId: string;
+        newAttrs: ASTAttrs;
+      }>
+    ) {
+      const { nodeId, newAttrs } = action.payload;
+
+      const findRes = findTargetNodeById(state, nodeId);
+      if (findRes === false) {
+        return;
+      }
+
+      const { target } = findRes;
+
+      target.attrs = {
+        ...target.attrs,
+        ...newAttrs,
+      };
+    },
   },
 });
 
@@ -155,4 +182,5 @@ export const {
   appendChildren,
   removeById,
   moveByPath,
+  setNodeAttrs,
 } = astSlice.actions;
