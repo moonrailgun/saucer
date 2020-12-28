@@ -24,9 +24,9 @@
     "build": "yarn run clean && yarn run build:esm && yarn run build:cjs && yarn run build:style",
     "build:esm": "tsc -p tsconfig.json --target ES5 --module ESNext --outDir esm",
     "build:cjs": "tsc -p tsconfig.json --target ES5 --module commonjs --outDir lib",
-    "build:style": "lessc ./src/default.less ./lib/default.css",
+    "build:style": "lessc ./src/default.less ./assets/default.css",
     "build:watch": "yarn run build:cjs --watch",
-    "clean": "rm -rf esm lib"
+    "clean": "rm -rf esm lib assets"
   },
   "bugs": {
     "url": "https://github.com/moonrailgun/saucer/issues"

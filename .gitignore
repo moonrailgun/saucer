@@ -8,6 +8,7 @@ lerna-debug.log*
 package-lock.json
 packages/*/esm/
 packages/*/lib/
+packages/*/assets/
 .DS_Store
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
