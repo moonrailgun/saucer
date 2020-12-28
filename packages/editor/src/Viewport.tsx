@@ -15,15 +15,15 @@ function renderChildren(children: ASTNode[], prefixPath: string = '') {
     const path = prefixPath === '' ? String(index) : `${prefixPath}.${index}`;
 
     let body: React.ReactNode;
+    const CupRender = cup.render;
     if (node.type === 'container') {
-      body = cup.render({
-        attrs: node.attrs,
-        children: <>{renderChildren(node.children, path)}</>,
-      });
+      body = (
+        <CupRender attrs={node.attrs}>
+          {renderChildren(node.children, path)}
+        </CupRender>
+      );
     } else {
-      body = cup.render({
-        attrs: node.attrs,
-      });
+      body = <CupRender attrs={node.attrs} />;
     }
 
     return (

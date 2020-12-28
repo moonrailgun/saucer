@@ -19,10 +19,12 @@ export const Inspector: React.FC = React.memo(() => {
 
   return (
     <div className="saucer-editor-inspector">
-      <p>Saucer Layout Inspector</p>
-
       <TeaAttrsContext.Provider value={{ currentTeaAttrs, setCurrentTeaAttrs }}>
-        {Editor && <Editor />}
+        {Editor ? (
+          <Editor />
+        ) : (
+          <div style={{ textAlign: 'center' }}>Please Select any Element</div>
+        )}
       </TeaAttrsContext.Provider>
     </div>
   );

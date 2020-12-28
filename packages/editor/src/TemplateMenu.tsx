@@ -33,7 +33,6 @@ export const TemplateMenu: React.FC = React.memo(() => {
 
   return (
     <div className="saucer-template-menu">
-      Saucer Layout Menu:{' '}
       {availableCupsName.map((cupName) => {
         const cup = findCup(cupName);
         return cup && <TemplateMenuItem key={cup.name} cup={cup} />;
