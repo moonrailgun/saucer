@@ -1,15 +1,38 @@
 import type { ASTAttrs } from './ast/types';
 
 export interface CupType {
+  /**
+   * Uniq name
+   */
   name: string;
+
+  /**
+   * DisplayName
+   */
   displayName?: string;
+
+  /**
+   * Cup type
+   */
   type: 'container' | 'leaf';
-  render: React.FC<{
+
+  /**
+   * Define how to render
+   */
+  render: React.ComponentType<{
     attrs: ASTAttrs;
     children?: React.ReactNode;
   }>;
+
+  /**
+   * Describe
+   */
   desc?: React.ReactNode;
-  editor?: React.FC;
+
+  /**
+   * Which attrs can be editor
+   */
+  editor?: React.ComponentType<{}>;
 }
 
 type CupMapType = Map<string, CupType>;
