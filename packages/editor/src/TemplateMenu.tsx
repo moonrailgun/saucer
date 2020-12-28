@@ -3,6 +3,8 @@ import { findCup, useAvailableCupsName, CupType } from '@saucerjs/core';
 import { useDrag } from 'react-dnd';
 import { CupItemSymbol } from './symbol';
 import type { DragObject } from './types';
+import Popover from 'antd/lib/popover';
+import _isNil from 'lodash/isNil';
 
 const TemplateMenuItem: React.FC<{
   cup: CupType;
@@ -15,7 +17,7 @@ const TemplateMenuItem: React.FC<{
     }),
   });
 
-  return (
+  const body = (
     <div
       className="saucer-template-menu__item"
       ref={dragRef}
@@ -24,6 +26,16 @@ const TemplateMenuItem: React.FC<{
       <div>{cup.displayName ?? cup.name}</div>
       {cup.desc && <small>{cup.desc}</small>}
     </div>
+  );
+
+  const Preview = cup.preview;
+
+  return !_isNil(Preview) ? (
+    <Popover placement="rightTop" content={Preview} trigger="hover">
+      {body}
+    </Popover>
+  ) : (
+    <>{body}</>
   );
 });
 TemplateMenuItem.displayName = 'TemplateMenuItem';

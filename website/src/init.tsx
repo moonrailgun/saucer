@@ -7,6 +7,9 @@ regCup({
   displayName: '容器组件',
   desc: '这是一个基本容器',
   type: 'container',
+  preview: () => {
+    return <div>容器组件</div>;
+  },
   render: (props) => {
     return (
       <div style={{ minHeight: 100, ...props.attrs.style }}>

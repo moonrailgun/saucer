@@ -17,6 +17,12 @@ export interface CupType {
   type: 'container' | 'leaf';
 
   /**
+   * Hover and preview component
+   * Display in a popover
+   */
+  preview?: React.ComponentType<{}>;
+
+  /**
    * Define how to render
    */
   render: React.ComponentType<{
