@@ -8,13 +8,15 @@ regCup({
   desc: '这是一个基本容器',
   type: 'container',
   render: (props) => {
-    return <div style={{ minHeight: 100 }}>{props.children}</div>;
+    return (
+      <div style={{ minHeight: 100, ...props.attrs.style }}>
+        {props.children}
+      </div>
+    );
   },
   editor: () => {
     return (
       <div>
-        <div>这里是容器的属性编辑器</div>
-
         <CSSEditor />
       </div>
     );
@@ -26,13 +28,12 @@ regCup({
   displayName: '按钮组件',
   desc: '这是一个按钮',
   type: 'leaf',
-  render: () => {
-    return <button>按钮</button>;
+  render: ({ attrs }) => {
+    return <button style={attrs.style}>按钮</button>;
   },
   editor: () => {
     return (
       <div>
-        <div>这里是按钮的属性编辑器</div>
         <CSSEditor />
       </div>
     );

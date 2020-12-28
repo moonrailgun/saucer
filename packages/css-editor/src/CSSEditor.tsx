@@ -40,7 +40,9 @@ export const CSSEditor: React.FC = React.memo(() => {
 
   return (
     <div key={currentTeaId}>
-      <div ref={handleRef}></div>
+      <div style={{ display: 'none' }}>
+        <div ref={handleRef}></div>
+      </div>
 
       {dom && (
         <EditorList
