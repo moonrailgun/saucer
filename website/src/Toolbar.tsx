@@ -32,7 +32,12 @@ export const Toolbar: React.FC = React.memo(() => {
         </Button>
       </Space>
 
-      <Modal footer={null} visible={showPreview} onCancel={handleHidePreview}>
+      <Modal
+        title="Previewer"
+        footer={null}
+        visible={showPreview}
+        onCancel={handleHidePreview}
+      >
         <Previewer />
       </Modal>
     </div>

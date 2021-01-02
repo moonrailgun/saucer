@@ -1,6 +1,9 @@
 import { regCup, saucerStoreHelper } from '@saucerjs/core';
 import { CSSEditor } from '@saucerjs/css-editor';
 import React from 'react';
+import { Checkbox, Input, InputNumber } from 'antd';
+import { useTeaAttrsContext } from '@saucerjs/editor';
+import { TextEditorField } from '@saucerjs/editor';
 
 regCup({
   name: 'Container',
@@ -43,4 +46,69 @@ regCup({
   },
 });
 
-saucerStoreHelper.setAvailableCup(['Container', 'Button']);
+regCup({
+  name: 'Input',
+  displayName: '输入框',
+  type: 'leaf',
+  render: () => {
+    const { currentTeaAttrs, setCurrentTeaAttrs } = useTeaAttrsContext();
+
+    return (
+      <Input
+        value={currentTeaAttrs['text']}
+        onChange={(e) => setCurrentTeaAttrs({ text: e.target.value })}
+      />
+    );
+  },
+});
+
+regCup({
+  name: 'InputNumber',
+  displayName: '数字输入框',
+  type: 'leaf',
+  render: () => {
+    const { currentTeaAttrs, setCurrentTeaAttrs } = useTeaAttrsContext();
+
+    return (
+      <InputNumber
+        value={currentTeaAttrs['num']}
+        onChange={(val) => setCurrentTeaAttrs({ num: val })}
+      />
+    );
+  },
+});
+
+regCup({
+  name: 'Checkbox',
+  displayName: '复选框',
+  type: 'leaf',
+  render: () => {
+    const { currentTeaAttrs, setCurrentTeaAttrs } = useTeaAttrsContext();
+
+    const label = currentTeaAttrs['label'] ?? 'label';
+
+    return (
+      <Checkbox
+        checked={currentTeaAttrs['select']}
+        onChange={(val) => setCurrentTeaAttrs({ select: val })}
+      >
+        {label}
+      </Checkbox>
+    );
+  },
+  editor: () => {
+    return (
+      <>
+        <TextEditorField field="label" label="标签" />
+      </>
+    );
+  },
+});
+
+saucerStoreHelper.setAvailableCup([
+  'Container',
+  'Button',
+  'Input',
+  'InputNumber',
+  'Checkbox',
+]);
