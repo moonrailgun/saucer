@@ -1,12 +1,10 @@
 import React from 'react';
 import { Inspector } from './Inspector';
 import { Previewer } from './Previewer';
-import { SaucerEditorProvider } from './Provider';
 import { TemplateMenu } from './TemplateMenu';
 import { TreeView } from './TreeView';
 import { Viewport } from './ViewPort';
 import SplitPane from 'react-split-pane';
-import { Toolbar } from './Toolbar';
 
 /**
  * Default Saucer Editor
@@ -14,11 +12,7 @@ import { Toolbar } from './Toolbar';
  */
 export const SaucerEditor: React.FC = React.memo(() => {
   return (
-    <SaucerEditorProvider>
-      <Toolbar />
-
-      <hr style={{ margin: 0 }} />
-
+    <>
       <SplitPane split="vertical" minSize={180}>
         <TemplateMenu />
 
@@ -35,7 +29,7 @@ export const SaucerEditor: React.FC = React.memo(() => {
           </SplitPane>
         </SplitPane>
       </SplitPane>
-    </SaucerEditorProvider>
+    </>
   );
 });
 SaucerEditor.displayName = 'SaucerEditor';
