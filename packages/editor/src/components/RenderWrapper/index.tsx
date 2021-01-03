@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import classNames from 'classnames';
 import type { ASTNode } from '@saucerjs/core';
 import { DropIndicator } from '../DropIndicator';
@@ -36,17 +36,18 @@ export const RenderWrapper: React.FC<RenderWrapperProps> = React.memo(
       [setCurrentTeaId, tea.id]
     );
 
-    let el: React.ReactNode;
-    if (type === 'container') {
-      el = (
-        <>
-          {props.children}
-          {isOverCurrent && <DropIndicator name={dragName} />}
-        </>
-      );
-    } else {
-      el = <>{props.children}</>;
-    }
+    const el = useMemo(() => {
+      if (type === 'container') {
+        return (
+          <>
+            {props.children}
+            {isOverCurrent && <DropIndicator name={dragName} />}
+          </>
+        );
+      } else {
+        return <>{props.children}</>;
+      }
+    }, [type, props.children, isOverCurrent, dragName]);
 
     return (
       <div
