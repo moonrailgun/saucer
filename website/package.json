@@ -36,7 +36,8 @@
   },
   "dependencies": {
     "@saucerjs/css-editor": "^0.0.0",
-    "@saucerjs/editor": "^0.0.2"
+    "@saucerjs/editor": "^0.0.2",
+    "@welldone-software/why-did-you-render": "^6.0.5"
   },
   "peerDependencies": {
     "antd": "^4.9.4"
