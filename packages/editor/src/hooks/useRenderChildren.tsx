@@ -52,11 +52,6 @@ export function renderChildren(
     let body: React.ReactNode;
     const CupRender = cup.render;
 
-    const teaContextValue = {
-      currentTeaAttrs: node.attrs,
-      setCurrentTeaAttrs: () => {},
-    };
-
     if (node.type === 'container') {
       body = (
         // TODO const { setCurrentTeaAttrs } = useCurrentTeaAction();
