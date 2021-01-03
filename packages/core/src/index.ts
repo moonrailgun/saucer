@@ -23,3 +23,4 @@ export {
   resetPathLastIndex,
 } from './ast/index';
 export { ASTNode, ASTAttrs, ASTType } from './ast/types';
+export { setNodeAttrs as setNodeAttrsAction } from './redux/slice/ast';

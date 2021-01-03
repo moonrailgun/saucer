@@ -1,15 +1,8 @@
-import { useSaucerSelector } from '@saucerjs/core';
 import React from 'react';
-import { renderChildren } from './render/renderChildren';
-
-function useViewportRender(): React.ReactNode {
-  const ast = useSaucerSelector((state) => state.ast);
-
-  return <>{renderChildren(ast.children, '', false)}</>;
-}
+import { useRenderChildren } from './hooks/useRenderChildren';
 
 export const Previewer: React.FC = React.memo(() => {
-  const el = useViewportRender();
+  const el = useRenderChildren({ hasWrapper: false });
 
   return <div className="saucer-editor-viewport">{el}</div>;
 });

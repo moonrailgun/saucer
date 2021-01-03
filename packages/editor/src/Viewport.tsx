@@ -1,19 +1,13 @@
 import React from 'react';
-import { useSaucerSelector, useAST } from '@saucerjs/core';
+import { useAST } from '@saucerjs/core';
 import { RenderWrapper } from './components/RenderWrapper';
-import { renderChildren } from './render/renderChildren';
-
-function useViewportRender(): React.ReactNode {
-  const ast = useSaucerSelector((state) => state.ast);
-
-  return <>{renderChildren(ast.children, '', true)}</>;
-}
+import { useRenderChildren } from './hooks/useRenderChildren';
 
 /**
  * Main View of User Operation to Drag and Drop
  */
 export const Viewport: React.FC = React.memo(() => {
-  const el = useViewportRender();
+  const el = useRenderChildren({ hasWrapper: true });
   const root = useAST();
 
   return (

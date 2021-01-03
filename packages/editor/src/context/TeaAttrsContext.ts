@@ -11,7 +11,7 @@ interface TeaAttrsContextProps {
  */
 export const TeaAttrsContext = React.createContext<TeaAttrsContextProps>({
   currentTeaAttrs: {},
-  setCurrentTeaAttrs: () => {},
+  setCurrentTeaAttrs: (newAttrs: ASTAttrs) => {},
 });
 TeaAttrsContext.displayName = 'TeaAttrsContext';
 
