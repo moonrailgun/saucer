@@ -35,19 +35,19 @@ ReactDom.render(
 
 ## For Develop
 
-#### Link dependency
+#### First of all, Link dependency
 
 ```bash
 yarn run bootstrap
 ```
 
-#### First of all, Build it
+#### Build it
 
 ```bash
 yarn run build
 ```
 
-#### Check for demo
+#### Then, check for demo
 
 ```bash
 yarn run start
@@ -55,6 +55,6 @@ yarn run start
 
 ## Proper Nouns
 
-- `Saucer`: this framework
+- `Saucer`: This framework
 - `Cup`: `Saucer` have many cup, you can treat it as template.
-- `Tea`: the instance of a `Cup`, every tea have its own attributes.
+- `Tea`: The instance of a `Cup`, every tea have its own attributes.
