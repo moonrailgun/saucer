@@ -3,7 +3,7 @@ import { Inspector } from './Inspector';
 import { Previewer } from './Previewer';
 import { TemplateMenu } from './TemplateMenu';
 import { TreeView } from './TreeView';
-import { Viewport } from './ViewPort';
+import { Viewport } from './Viewport';
 import SplitPane from 'react-split-pane';
 
 /**
