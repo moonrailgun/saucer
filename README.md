@@ -35,6 +35,12 @@ ReactDom.render(
 
 ## For Develop
 
+#### Link dependency
+
+```bash
+yarn run bootstrap
+```
+
 #### First of all, Build it
 
 ```bash
