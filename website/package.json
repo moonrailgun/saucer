@@ -23,7 +23,7 @@
   "scripts": {
     "start": "parcel public/index.html",
     "build": "parcel build public/index.html",
-    "clean": "rm -rf .cache/",
+    "clean": "rm -rf .cache/ ./dist/",
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "bugs": {
