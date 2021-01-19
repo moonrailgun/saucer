@@ -40,5 +40,6 @@
     "@saucerjs/editor": "^0.1.0",
     "rc-editor-list": "^2.0.1",
     "style-to-object": "^0.3.0"
-  }
+  },
+  "gitHead": "1b4c673b705b7918619db028bbaae56429f24156"
 }
