@@ -14,7 +14,8 @@
   },
   "files": [
     "lib",
-    "esm"
+    "esm",
+    "assets"
   ],
   "repository": {
     "type": "git",
