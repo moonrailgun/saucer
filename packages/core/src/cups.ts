@@ -26,6 +26,7 @@ export interface CupType {
    * Define how to render
    */
   render: React.ComponentType<{
+    nodeId: string;
     attrs: ASTAttrs;
     children?: React.ReactNode;
   }>;

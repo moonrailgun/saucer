@@ -56,12 +56,12 @@ export function renderChildren(
       body = (
         // TODO const { setCurrentTeaAttrs } = useCurrentTeaAction();
         // <TeaAttrsContext value={{currentTeaAttrs: node.attrs, }}></TeaAttrsContext>
-        <CupRender attrs={node.attrs}>
+        <CupRender nodeId={node.id} attrs={node.attrs}>
           {renderChildren(node.children, path, hasWrapper)}
         </CupRender>
       );
     } else {
-      body = <CupRender attrs={node.attrs} />;
+      body = <CupRender nodeId={node.id} attrs={node.attrs} />;
     }
 
     // Wrap Children attrs edit context
