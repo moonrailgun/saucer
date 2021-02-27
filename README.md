@@ -1,6 +1,6 @@
 # Saucer
 
-*WIP: its a project which is work in progress*
+*WIP: This is a project which is work in progress*
 
 A Layout Editor for Drag and Drop
 
