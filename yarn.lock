@@ -8420,7 +8420,7 @@ parcel-bundler@^1.12.4:
 
 parcel-plugin-bundle-visualiser@^1.2.0:
   version "1.2.0"
-  resolved "https://registry.npmjs.org/parcel-plugin-bundle-visualiser/-/parcel-plugin-bundle-visualiser-1.2.0.tgz#b24cde64233c8e8ce2561ec5d864a7543d8e719d"
+  resolved "https://registry.yarnpkg.com/parcel-plugin-bundle-visualiser/-/parcel-plugin-bundle-visualiser-1.2.0.tgz#b24cde64233c8e8ce2561ec5d864a7543d8e719d"
   integrity sha512-/O+26nsOwXbl1q6A/X9lEJWAPwZt5VauTV32omC3a/09bfUgHTogkAIYB/BqrGQm6OyuoG5FATToT3AGGk9RTA==
   dependencies:
     filesize "^3.6.0"
