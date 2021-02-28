@@ -6,19 +6,23 @@ import {
 } from '@saucerjs/core';
 import { TeaAttrsContext } from './context/TeaAttrsContext';
 
+interface InspectorProps {
+  style?: React.CSSProperties;
+}
+
 /**
  * Inspector of cup
  *
  * Render Cup Attrs Editor Component
  */
-export const Inspector: React.FC = React.memo(() => {
+export const Inspector: React.FC<InspectorProps> = React.memo((props) => {
   const currentTeaAttrs = useCurrentTeaAttrs();
   const currentCup = useCurrentTeaCup();
   const { setCurrentTeaAttrs } = useCurrentTeaAction();
   const Editor = currentCup?.editor;
 
   return (
-    <div className="saucer-editor-inspector">
+    <div className="saucer-editor-inspector" style={props.style}>
       <TeaAttrsContext.Provider value={{ currentTeaAttrs, setCurrentTeaAttrs }}>
         {Editor ? (
           <Editor />
@@ -29,3 +33,4 @@ export const Inspector: React.FC = React.memo(() => {
     </div>
   );
 });
+Inspector.displayName = 'Inspector';

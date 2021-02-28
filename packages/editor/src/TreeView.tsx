@@ -24,7 +24,10 @@ interface SaucerTreeEventDataNode extends EventDataNode {
   type: ASTType;
 }
 
-export const TreeView: React.FC = React.memo(() => {
+interface TreeViewProps {
+  style?: React.CSSProperties;
+}
+export const TreeView: React.FC<TreeViewProps> = React.memo((props) => {
   const ast = useAST();
   const currentSelectedTeaId = useCurrentTeaId();
   const { setCurrentTeaId } = useCurrentTeaAction();
@@ -100,7 +103,7 @@ export const TreeView: React.FC = React.memo(() => {
   };
 
   return (
-    <div className="saucer-editor-treeview">
+    <div className="saucer-editor-treeview" style={props.style}>
       <Tree
         defaultExpandAll={true}
         showIcon={false}

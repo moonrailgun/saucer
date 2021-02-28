@@ -40,11 +40,14 @@ const TemplateMenuItem: React.FC<{
 });
 TemplateMenuItem.displayName = 'TemplateMenuItem';
 
-export const TemplateMenu: React.FC = React.memo(() => {
+interface TemplateMenuProps {
+  style?: React.CSSProperties;
+}
+export const TemplateMenu: React.FC<TemplateMenuProps> = React.memo((props) => {
   const availableCupsName = useAvailableCupsName();
 
   return (
-    <div className="saucer-template-menu">
+    <div className="saucer-template-menu" style={props.style}>
       {availableCupsName.map((cupName) => {
         const cup = findCup(cupName);
         return cup && <TemplateMenuItem key={cup.name} cup={cup} />;
