@@ -5,10 +5,11 @@ import {
   findCup,
   useSaucerDispatch,
   useSaucerSelector,
+  setNodeAttrsAction,
 } from '@saucerjs/core';
 import { RenderWrapper } from '../components/RenderWrapper';
 import { TeaAttrsContext } from '../context/TeaAttrsContext';
-import { setNodeAttrsAction } from '@saucerjs/core';
+import { RenderInteractiveMask } from '../components/RenderInteractiveMask';
 
 const ChildrenContextBuilder: React.FC<{
   id: string;
@@ -51,6 +52,7 @@ export function renderChildren(
 
     let body: React.ReactNode;
     const CupRender = cup.render;
+    const renderInteractive = cup.renderInteractive ?? false;
 
     if (node.type === 'container') {
       body = (
@@ -62,6 +64,11 @@ export function renderChildren(
       );
     } else {
       body = <CupRender nodeId={node.id} attrs={node.attrs} />;
+    }
+
+    if (renderInteractive === false) {
+      // Forbid to interactive with render component
+      body = <RenderInteractiveMask>{body}</RenderInteractiveMask>;
     }
 
     // Wrap Children attrs edit context

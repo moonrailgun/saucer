@@ -32,6 +32,12 @@ export interface CupType {
   }>;
 
   /**
+   * Whether render can interactive in viewport
+   * Default is false
+   */
+  renderInteractive?: boolean;
+
+  /**
    * Describe
    */
   desc?: React.ReactNode;
