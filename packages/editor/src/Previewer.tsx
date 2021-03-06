@@ -8,7 +8,7 @@ export const Previewer: React.FC<PreviewerProps> = React.memo((props) => {
   const el = useRenderChildren({ hasWrapper: false });
 
   return (
-    <div className="saucer-editor-viewport" style={props.style}>
+    <div className="saucer-editor-previewer" style={props.style}>
       {el}
     </div>
   );
