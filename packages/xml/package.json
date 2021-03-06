@@ -1,0 +1,38 @@
+{
+  "name": "@saucerjs/xml",
+  "version": "0.1.5",
+  "description": "> TODO: description",
+  "author": "moonrailgun <moonrailgun@gmail.com>",
+  "homepage": "https://github.com/moonrailgun/saucer/tree/master/core#readme",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "module": "esm/index.js",
+  "types": "lib/index.d.ts",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib",
+    "esm"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moonrailgun/saucer.git"
+  },
+  "scripts": {
+    "build": "yarn run clean && yarn run build:esm && yarn run build:cjs",
+    "build:esm": "tsc -p tsconfig.json --target ES5 --module ESNext --outDir esm",
+    "build:cjs": "tsc -p tsconfig.json --target ES5 --module commonjs --outDir lib",
+    "build:watch": "yarn run build:cjs --watch",
+    "clean": "rm -rf esm lib"
+  },
+  "bugs": {
+    "url": "https://github.com/moonrailgun/saucer/issues"
+  },
+  "gitHead": "1b4c673b705b7918619db028bbaae56429f24156",
+  "dependencies": {
+    "@saucerjs/core": "^0.1.5",
+    "xml-js": "^1.6.11"
+  }
+}

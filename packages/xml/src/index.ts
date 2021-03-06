@@ -1,0 +1,1 @@
+export { serializeToXML } from './utils';
