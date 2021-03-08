@@ -1,6 +1,6 @@
 {
   "name": "website",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "private": true,
   "description": "> TODO: description",
   "author": "moonrailgun <moonrailgun@gmail.com>",
@@ -37,8 +37,8 @@
     "react-dom": "17.0.1"
   },
   "dependencies": {
-    "@saucerjs/css-editor": "^0.1.5",
-    "@saucerjs/editor": "^0.1.5",
+    "@saucerjs/css-editor": "^0.1.6",
+    "@saucerjs/editor": "^0.1.6",
     "@welldone-software/why-did-you-render": "^6.0.5"
   },
   "peerDependencies": {
