@@ -26,7 +26,7 @@
     "build:esm": "tsc -p tsconfig.json --target ES5 --module ESNext --outDir esm",
     "build:cjs": "tsc -p tsconfig.json --target ES5 --module commonjs --outDir lib",
     "build:style": "lessc ./src/default.less ./assets/default.css",
-    "build:watch": "yarn run build:cjs --watch",
+    "build:watch": "yarn run build:esm --watch",
     "clean": "rm -rf esm lib assets"
   },
   "bugs": {
