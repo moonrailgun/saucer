@@ -23,6 +23,18 @@ export interface CupType {
   preview?: React.ComponentType<{}>;
 
   /**
+   * A Function which create nodeId
+   *
+   * @default shortid()
+   */
+  generateNodeId?: () => string;
+
+  /**
+   * Default Component Attrs
+   */
+  defaultAttrs?: ASTAttrs | ((info: { nodeId: string }) => ASTAttrs);
+
+  /**
    * Define how to render
    */
   render: React.ComponentType<{

@@ -70,7 +70,7 @@ describe('createASTNode', () => {
   ])(
     '%s %s %o',
     (type: ASTType, name: string, attrs: ASTAttrs = {}, output: ASTNode) => {
-      expect(createASTNode(type, name, attrs)).toMatchObject(output);
+      expect(createASTNode(type, 'any', name, attrs)).toMatchObject(output);
     }
   );
 
@@ -123,7 +123,7 @@ describe('createASTNode', () => {
   ])(
     '%s %s %o',
     (type: ASTType, name: string, attrs: ASTAttrs = {}, output: ASTNode) => {
-      expect(createASTNode(type, name, attrs)).toMatchObject(output);
+      expect(createASTNode(type, 'any', name, attrs)).toMatchObject(output);
     }
   );
 });

@@ -8,6 +8,7 @@ import {
 import type { ASTContainerNode } from '@saucerjs/core/lib/ast/types';
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
+import shortid from 'shortid';
 import { CupItemSymbol, TeaItemSymbol } from '../symbol';
 import type { DragObject } from '../types';
 
@@ -46,13 +47,28 @@ export function useDragAndDrop(props: UseDragAndDropProps) {
           return;
         }
 
+        const nodeId =
+          typeof cup.generateNodeId === 'function'
+            ? cup.generateNodeId()
+            : shortid();
+        let nodeAttrs = {};
+        if (typeof cup.defaultAttrs !== 'undefined') {
+          const defaultAttrs =
+            typeof cup.defaultAttrs === 'function'
+              ? cup.defaultAttrs({ nodeId })
+              : cup.defaultAttrs;
+          nodeAttrs = {
+            ...defaultAttrs,
+          };
+        }
+
         if (teaType === 'container') {
-          dispatchAppendChildren(path, cup.type, cup.name);
+          dispatchAppendChildren(path, cup.type, nodeId, cup.name, nodeAttrs);
         } else {
           if (hoverDirection === 'top') {
-            dispatchInsertBefore(path, cup.type, cup.name);
+            dispatchInsertBefore(path, cup.type, nodeId, cup.name, nodeAttrs);
           } else {
-            dispatchInsertAfter(path, cup.type, cup.name);
+            dispatchInsertAfter(path, cup.type, nodeId, cup.name, nodeAttrs);
           }
         }
       } else if (dropType === TeaItemSymbol) {

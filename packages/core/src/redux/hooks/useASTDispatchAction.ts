@@ -19,6 +19,7 @@ export function useASTDispatchAction() {
     (
       targetPath: string,
       type: ASTType,
+      nodeId: string,
       cupName: string,
       attrs: ASTAttrs = {}
     ) => {
@@ -26,6 +27,7 @@ export function useASTDispatchAction() {
         insertBefore({
           targetPath,
           type,
+          nodeId,
           cupName,
           attrs,
         })
@@ -38,6 +40,7 @@ export function useASTDispatchAction() {
     (
       targetPath: string,
       type: ASTType,
+      nodeId: string,
       cupName: string,
       attrs: ASTAttrs = {}
     ) => {
@@ -45,6 +48,7 @@ export function useASTDispatchAction() {
         insertAfter({
           targetPath,
           type,
+          nodeId,
           cupName,
           attrs,
         })
@@ -57,6 +61,7 @@ export function useASTDispatchAction() {
     (
       targetPath: string,
       type: ASTType,
+      nodeId: string,
       cupName: string,
       attrs: ASTAttrs = {}
     ) => {
@@ -64,6 +69,7 @@ export function useASTDispatchAction() {
         appendChildren({
           targetPath,
           type,
+          nodeId,
           cupName,
           attrs,
         })

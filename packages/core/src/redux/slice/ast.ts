@@ -37,11 +37,12 @@ export const astSlice = createSlice({
       action: PayloadAction<{
         targetPath: string; // For example: 0.1.0 => root.children[0].children[1].children[0]
         type: ASTType;
+        nodeId: string;
         cupName: string;
         attrs?: ASTAttrs;
       }>
     ) {
-      const { targetPath, type, cupName, attrs = {} } = action.payload;
+      const { targetPath, type, nodeId, cupName, attrs = {} } = action.payload;
 
       const findRes = findTargetNodeByPath(state, targetPath);
       if (findRes === false) {
@@ -49,7 +50,7 @@ export const astSlice = createSlice({
       }
 
       const { target, parent, targetIndex } = findRes;
-      const newNode = createASTNode(type, cupName, attrs);
+      const newNode = createASTNode(type, nodeId, cupName, attrs);
       if (!target) {
         // cannot find target
         parent.children.push(newNode);
@@ -65,11 +66,12 @@ export const astSlice = createSlice({
       action: PayloadAction<{
         targetPath: string; // For example: 0.1.0 => root.children[0].children[1].children[0]
         type: ASTType;
+        nodeId: string;
         cupName: string;
         attrs?: ASTAttrs;
       }>
     ) {
-      const { targetPath, type, cupName, attrs = {} } = action.payload;
+      const { targetPath, type, nodeId, cupName, attrs = {} } = action.payload;
 
       const findRes = findTargetNodeByPath(state, targetPath);
       if (findRes === false) {
@@ -77,7 +79,7 @@ export const astSlice = createSlice({
       }
 
       const { target, parent, targetIndex } = findRes;
-      const newNode = createASTNode(type, cupName, attrs);
+      const newNode = createASTNode(type, nodeId, cupName, attrs);
 
       if (!target) {
         // cannot find target
@@ -92,11 +94,12 @@ export const astSlice = createSlice({
       action: PayloadAction<{
         targetPath: string; // For example: 0.1.0 => root.children[0].children[1].children[0]
         type: ASTType;
+        nodeId: string;
         cupName: string;
         attrs?: ASTAttrs;
       }>
     ) {
-      const { targetPath, type, cupName, attrs = {} } = action.payload;
+      const { targetPath, type, nodeId, cupName, attrs = {} } = action.payload;
 
       const findRes = findTargetNodeByPath(state, targetPath);
       if (findRes === false) {
@@ -104,7 +107,7 @@ export const astSlice = createSlice({
       }
 
       const { target } = findRes;
-      const newNode = createASTNode(type, cupName, attrs);
+      const newNode = createASTNode(type, nodeId, cupName, attrs);
 
       if (isContainerNode(target)) {
         target.children.push(newNode);

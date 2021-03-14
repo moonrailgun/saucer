@@ -5,7 +5,6 @@ import type {
   ASTNode,
   ASTType,
 } from './types';
-import shortid from 'shortid';
 import _get from 'lodash/get';
 import _has from 'lodash/has';
 import _cloneDeep from 'lodash/cloneDeep';
@@ -13,15 +12,15 @@ import _isNil from 'lodash/isNil';
 
 export function createASTNode(
   type: ASTType,
-  name: string,
+  id: string,
+  cupName: string,
   attrs: ASTAttrs = {}
 ): ASTNode {
-  const id = shortid();
   if (type === 'container') {
     return {
       id,
       type,
-      cupName: name,
+      cupName,
       attrs,
       children: [],
     } as ASTContainerNode;
@@ -29,14 +28,14 @@ export function createASTNode(
     return {
       id,
       type,
-      cupName: name,
+      cupName,
       attrs,
     } as ASTLeafNode;
   } else {
     return {
       id,
       type,
-      cupName: name,
+      cupName,
       attrs,
     } as ASTNode;
   }

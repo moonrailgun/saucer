@@ -47,7 +47,7 @@ export function renderChildren(
       return null;
     }
 
-    const key = node.id;
+    const nodeId = node.id;
     const path = prefixPath === '' ? String(index) : `${prefixPath}.${index}`;
 
     let body: React.ReactNode;
@@ -58,12 +58,12 @@ export function renderChildren(
       body = (
         // TODO const { setCurrentTeaAttrs } = useCurrentTeaAction();
         // <TeaAttrsContext value={{currentTeaAttrs: node.attrs, }}></TeaAttrsContext>
-        <CupRender nodeId={node.id} attrs={node.attrs}>
+        <CupRender nodeId={nodeId} attrs={node.attrs}>
           {renderChildren(node.children, path, hasWrapper)}
         </CupRender>
       );
     } else {
-      body = <CupRender nodeId={node.id} attrs={node.attrs} />;
+      body = <CupRender nodeId={nodeId} attrs={node.attrs} />;
     }
 
     if (renderInteractive === false) {
@@ -73,14 +73,14 @@ export function renderChildren(
 
     // Wrap Children attrs edit context
     body = (
-      <ChildrenContextBuilder id={node.id} attrs={node.attrs}>
+      <ChildrenContextBuilder id={nodeId} attrs={node.attrs}>
         {body}
       </ChildrenContextBuilder>
     );
 
     if (hasWrapper) {
       return (
-        <RenderWrapper key={key} path={path} tea={node}>
+        <RenderWrapper key={nodeId} path={path} tea={node}>
           {body}
         </RenderWrapper>
       );
