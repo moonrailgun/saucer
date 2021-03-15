@@ -1,7 +1,5 @@
 # Saucer
 
-*WIP: This is a project which is work in progress*
-
 A Layout Editor for Drag and Drop
 
 ## What is Saucer
