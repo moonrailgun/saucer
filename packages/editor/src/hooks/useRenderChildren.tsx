@@ -66,7 +66,8 @@ export function renderChildren(
       body = <CupRender nodeId={nodeId} attrs={node.attrs} />;
     }
 
-    if (renderInteractive === false) {
+    if (node.type === 'leaf' && renderInteractive === false) {
+      // Only for leaf node
       // Forbid to interactive with render component
       body = <RenderInteractiveMask>{body}</RenderInteractiveMask>;
     }
