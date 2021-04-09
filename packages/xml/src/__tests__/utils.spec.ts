@@ -177,6 +177,45 @@ describe.each([
     },
     '<Container><Input/><Input/></Container>',
   ],
+
+  [
+    'with text children(render by _childrenText)',
+    {
+      id: 'root',
+      type: 'container' as const,
+      cupName: 'root',
+      attrs: {},
+      children: [
+        {
+          id: 'ufBrwa1b3',
+          type: 'leaf' as const,
+          cupName: 'Tip',
+          attrs: {
+            _childrenText: 'any string',
+          },
+        },
+      ],
+    },
+    {
+      type: 'element',
+      name: 'root',
+      attributes: {},
+      elements: [
+        {
+          type: 'element',
+          name: 'Tip',
+          attributes: {},
+          elements: [
+            {
+              type: 'text',
+              text: 'any string',
+            },
+          ],
+        },
+      ],
+    },
+    '<Tip>any string</Tip>',
+  ],
 ])('%s', (name, ast: ASTNode, intermediate: XMLElement, xml: string) => {
   test('transformToXMLAST', () => {
     expect(transformToXMLAST(ast)).toEqual(intermediate);
