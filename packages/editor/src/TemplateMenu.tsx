@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { findCup, useAvailableCupsName, CupType } from '@saucerjs/core';
 import { useDrag } from 'react-dnd';
 import { CupItemSymbol } from './symbol';
@@ -42,13 +42,18 @@ TemplateMenuItem.displayName = 'TemplateMenuItem';
 
 interface TemplateMenuProps {
   style?: React.CSSProperties;
+  cupNames?: string[];
 }
 export const TemplateMenu: React.FC<TemplateMenuProps> = React.memo((props) => {
   const availableCupsName = useAvailableCupsName();
+  const allCups = useMemo(
+    () => [...availableCupsName, ...(props.cupNames ?? [])],
+    [availableCupsName, props.cupNames]
+  );
 
   return (
     <div className="saucer-template-menu" style={props.style}>
-      {availableCupsName.map((cupName) => {
+      {allCups.map((cupName) => {
         const cup = findCup(cupName);
         return cup && <TemplateMenuItem key={cup.name} cup={cup} />;
       })}
