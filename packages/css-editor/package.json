@@ -1,6 +1,6 @@
 {
   "name": "@saucerjs/css-editor",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "A css editor of saucer.",
   "author": "moonrailgun <moonrailgun@gmail.com>",
   "homepage": "https://github.com/moonrailgun/saucer/tree/master/packages/css-editor#readme",
@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "@saucerjs/core": "^0.1.7",
-    "@saucerjs/editor": "^0.1.7",
+    "@saucerjs/editor": "^0.1.8",
     "rc-editor-list": "^2.0.1",
     "style-to-object": "^0.3.0"
   },
