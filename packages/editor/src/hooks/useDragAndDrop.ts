@@ -82,6 +82,12 @@ export function useDragAndDrop(props: UseDragAndDropProps) {
             `${toPath}.0`,
             (tea as ASTContainerNode).children.length
           );
+
+          if (subLastPath.startsWith(fromPath)) {
+            // Move into Self
+            // Ignore it
+            return;
+          }
           dispatchMoveNodeByPath(fromPath, subLastPath);
         } else {
           if (hoverDirection === 'top') {
