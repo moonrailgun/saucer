@@ -1,8 +1,6 @@
 export type ASTType = 'leaf' | 'container';
 
-export interface ASTAttrs {
-  [key: string]: any;
-}
+export type ASTAttrs = Record<string, any>;
 
 export interface ASTBaseNode {
   id: string;
