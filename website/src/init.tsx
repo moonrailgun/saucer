@@ -1,9 +1,13 @@
-import { regCup, saucerStoreHelper } from '@saucerjs/core';
+import { ASTNode, regCup, saucerStoreHelper } from '@saucerjs/core';
 import { CSSEditor } from '@saucerjs/css-editor';
 import React from 'react';
-import { Checkbox, Input, InputNumber } from 'antd';
-import { useTeaAttrsContext } from '@saucerjs/editor';
-import { TextEditorField } from '@saucerjs/editor';
+import { Checkbox, Input, InputNumber, Tabs } from 'antd';
+import {
+  useTeaAttrsContext,
+  TextEditorField,
+  renderChildren,
+} from '@saucerjs/editor';
+import shortid from 'shortid';
 
 regCup({
   name: 'Container',
@@ -100,6 +104,49 @@ regCup({
     return (
       <>
         <TextEditorField field="label" label="标签" />
+      </>
+    );
+  },
+});
+
+interface CupTabsPanelItem {
+  nodeId: string;
+  children: ASTNode[];
+}
+regCup({
+  name: 'Tabs',
+  displayName: '复选框',
+  type: 'container',
+  defaultAttrs: () => {
+    return {
+      _panel: [
+        {
+          nodeId: shortid(),
+          children: [],
+        },
+        {
+          nodeId: shortid(),
+          children: [],
+        },
+      ] as CupTabsPanelItem[],
+    };
+  },
+  render: ({ attrs }) => {
+    const panels: CupTabsPanelItem[] = attrs['_pane'] ?? [];
+    return (
+      <Tabs>
+        {panels.map((panel) => (
+          <Tabs.TabPane key={panel.nodeId}>
+            {renderChildren(panel.children ?? [])}
+          </Tabs.TabPane>
+        ))}
+      </Tabs>
+    );
+  },
+  editor: () => {
+    return (
+      <>
+        <TextEditorField field="label" label="当前面板Key" />
       </>
     );
   },
