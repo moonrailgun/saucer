@@ -17,6 +17,7 @@
     "@types/react-dom": "^16.9.9",
     "@types/react-redux": "^7.1.11",
     "@types/shortid": "^0.0.29",
+    "bundlesize": "^0.18.1",
     "husky": "^4.3.0",
     "jest": "^26.6.3",
     "lerna": "^3.22.1",
@@ -33,6 +34,7 @@
     "build:style": "lerna run build:style",
     "clean": "lerna run clean",
     "release": "lerna run build && lerna publish",
+    "bundlesize": "bundlesize",
     "test": "jest"
   },
   "husky": {

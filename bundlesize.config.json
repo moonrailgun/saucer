@@ -1,0 +1,14 @@
+[
+  {
+    "path": "./packages/core/esm/*.js"
+  },
+  {
+    "path": "./packages/css-editor/esm/*.js"
+  },
+  {
+    "path": "./packages/editor/esm/*.js"
+  },
+  {
+    "path": "./packages/xml/esm/*.js"
+  }
+]
