@@ -6,6 +6,10 @@ A Layout Editor for Drag and Drop
 
 `Saucer` is a layout editor framework which can help you build your own layout editor. You can design your `DSL`, and let `Saucer` help you to finish other trivial work.
 
+## Why to use Saucer
+
+We know, this world has been lots of layout editor, but those project is work for zero code develop, but `saucer` is make for meta develop, its means `saucer` have mini-size and easy to expand, and the output of `saucer` is more necessary.
+
 ## Quick Start
 
 ```jsx
