@@ -1,10 +1,52 @@
 import React, { useCallback, useState } from 'react';
-import EditorList, { EditorListChangeState } from 'rc-editor-list';
+import EditorList from './lib/rc-editor-list/src/index';
 import _get from 'lodash/get';
 import _isNil from 'lodash/isNil';
 import { parseStyleStringToReactStyle } from './utils';
 import { useTeaAttrsContext } from '@saucerjs/editor';
 import { useCurrentTeaId } from '@saucerjs/core';
+
+interface EditorListChangeState {
+  /**
+   * parent selectors
+   */
+  parentClassName: string;
+
+  /**
+   * edit css value
+   */
+  cssValue: any;
+
+  /**
+   * edit className
+   */
+  cssName: string;
+
+  /**
+   * Selectors replace(/[^a-z]/ig, ''), render style id
+   */
+  id: string;
+
+  /**
+   * edit random id
+   */
+  editClassName: string;
+
+  /**
+   * all css string, including events and terminals
+   */
+  allCssString: string;
+
+  /**
+   * current css string
+   */
+  currentEditCssString: string;
+
+  /**
+   * Is the color or slider changed by dragging
+   */
+  isDrag: boolean;
+}
 
 /**
  * 样式编辑器
