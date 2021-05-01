@@ -1,6 +1,6 @@
 import { ASTNode, regCup, saucerStoreHelper } from '@saucerjs/core';
 import { CSSEditor } from '@saucerjs/css-editor';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Checkbox, Input, InputNumber, Tabs } from 'antd';
 import {
   useTeaAttrsContext,
@@ -111,32 +111,48 @@ regCup({
 
 interface CupTabsPanelItem {
   nodeId: string;
+  name: string;
   children: ASTNode[];
 }
 regCup({
   name: 'Tabs',
-  displayName: '复选框',
+  displayName: '标签页',
   type: 'container',
   defaultAttrs: () => {
+    const firstNodeId = shortid();
     return {
+      activePanelNodeId: firstNodeId,
       _panel: [
         {
-          nodeId: shortid(),
+          nodeId: firstNodeId,
+          name: '标签页一',
           children: [],
         },
         {
           nodeId: shortid(),
+          name: '标签页二',
           children: [],
         },
       ] as CupTabsPanelItem[],
     };
   },
   render: ({ attrs }) => {
-    const panels: CupTabsPanelItem[] = attrs['_pane'] ?? [];
+    const panels: CupTabsPanelItem[] = attrs['_panel'] ?? [];
+    const { currentTeaAttrs, setCurrentTeaAttrs } = useTeaAttrsContext();
+
+    const handleChange = useCallback((activeKey) => {
+      setCurrentTeaAttrs({
+        activePanelNodeId: activeKey,
+      });
+    }, []);
+
     return (
-      <Tabs>
+      <Tabs
+        activeKey={currentTeaAttrs['activePanelNodeId']}
+        onChange={handleChange}
+      >
         {panels.map((panel) => (
-          <Tabs.TabPane key={panel.nodeId}>
+          <Tabs.TabPane key={panel.nodeId} tab={panel.name || panel.nodeId}>
             {renderChildren(panel.children ?? [])}
           </Tabs.TabPane>
         ))}
@@ -146,7 +162,7 @@ regCup({
   editor: () => {
     return (
       <>
-        <TextEditorField field="label" label="当前面板Key" />
+        <TextEditorField field="activePanelNodeId" label="当前面板Key" />
       </>
     );
   },
@@ -158,4 +174,5 @@ saucerStoreHelper.setAvailableCup([
   'Input',
   'InputNumber',
   'Checkbox',
+  'Tabs',
 ]);
