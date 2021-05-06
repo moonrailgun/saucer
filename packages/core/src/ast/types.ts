@@ -2,7 +2,7 @@ export type ASTType = 'leaf' | 'container';
 
 export type ASTAttrs = Record<string, any>;
 
-export interface ASTBaseNode {
+interface ASTBaseNode {
   id: string;
   type: ASTType;
   cupName: string;

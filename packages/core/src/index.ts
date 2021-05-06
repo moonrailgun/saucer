@@ -3,7 +3,10 @@ export {
   useSaucerSelector,
   useSaucerDispatch,
 } from './redux/context';
-export { defaultSaucerStoreHelper as saucerStoreHelper } from './redux/store';
+export {
+  defaultSaucerStoreHelper as saucerStoreHelper,
+  BuildSaucerStoreOptions,
+} from './redux/store';
 export { useAvailableCupsName } from './redux/hooks/useAvailableCupsName';
 export { regCup, findCup, getAllCup, CupType } from './cups';
 export { useASTDispatchAction } from './redux/hooks/useASTDispatchAction';
@@ -22,5 +25,11 @@ export {
   getFirstPath,
   resetPathLastIndex,
 } from './ast/index';
-export { ASTNode, ASTAttrs, ASTType } from './ast/types';
+export type {
+  ASTNode,
+  ASTAttrs,
+  ASTType,
+  ASTLeafNode,
+  ASTContainerNode,
+} from './ast/types';
 export { setNodeAttrs as setNodeAttrsAction } from './redux/slice/ast';

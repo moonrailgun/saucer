@@ -1,4 +1,4 @@
-import type { ASTAttrs } from './ast/types';
+import type { ASTAttrs, ASTNode } from './ast/types';
 
 export interface CupType {
   /**
@@ -39,6 +39,14 @@ export interface CupType {
    */
   render: React.ComponentType<{
     nodeId: string;
+    /**
+     * Origin AST Node
+     */
+    node: ASTNode;
+    /**
+     * Current Node Path
+     */
+    path: string;
     attrs: ASTAttrs;
     children?: React.ReactNode;
   }>;

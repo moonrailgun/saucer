@@ -58,12 +58,14 @@ export function renderChildren(
       body = (
         // TODO const { setCurrentTeaAttrs } = useCurrentTeaAction();
         // <TeaAttrsContext value={{currentTeaAttrs: node.attrs, }}></TeaAttrsContext>
-        <CupRender nodeId={nodeId} attrs={node.attrs}>
+        <CupRender nodeId={nodeId} node={node} path={path} attrs={node.attrs}>
           {renderChildren(node.children, path, hasWrapper)}
         </CupRender>
       );
     } else {
-      body = <CupRender nodeId={nodeId} attrs={node.attrs} />;
+      body = (
+        <CupRender nodeId={nodeId} node={node} path={path} attrs={node.attrs} />
+      );
     }
 
     if (node.type === 'leaf' && renderInteractive === false) {
