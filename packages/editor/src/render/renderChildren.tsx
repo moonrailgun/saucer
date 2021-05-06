@@ -51,6 +51,7 @@ export function renderChildren(
 
     let body: React.ReactNode;
     const CupRender = cup.render;
+    CupRender.displayName = `SaucerElement(${cup.name})`;
     const renderInteractive = cup.renderInteractive ?? false;
 
     if (node.type === 'container') {
