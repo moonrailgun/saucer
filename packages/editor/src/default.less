@@ -72,6 +72,32 @@
       content: ' ';
       bottom: 0;
     }
+
+    > .saucer-render-wrapper__tools {
+      position: absolute;
+      right: 0;
+      top: 0;
+      background-color: #4285f4;
+      color: white;
+      border-bottom-left-radius: 3px;
+      font-size: 12px;
+      display: flex;
+
+      path {
+        fill: currentColor;
+      }
+
+      .saucer-render-wrapper__tools-item {
+        cursor: pointer;
+        padding: 0 2px;
+        display: flex;
+        align-items: center;
+
+        + .saucer-render-wrapper__tools-item {
+          border-left: 1px solid white;
+        }
+      }
+    }
   }
 }
 

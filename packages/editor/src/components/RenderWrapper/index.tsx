@@ -4,6 +4,7 @@ import type { ASTNode } from '@saucerjs/core';
 import { DropIndicator } from '../DropIndicator';
 import { useCurrentTeaId, useCurrentTeaAction } from '@saucerjs/core';
 import { useDragAndDrop } from '../../hooks/useDragAndDrop';
+import { RenderWrapperTools } from './tools';
 
 interface RenderWrapperProps {
   path: string;
@@ -60,6 +61,10 @@ export const RenderWrapper: React.FC<RenderWrapperProps> = React.memo(
         onClick={handleClick}
       >
         {el}
+
+        {isSelected && currentSelectedTeaId !== 'root' && (
+          <RenderWrapperTools />
+        )}
       </div>
     );
   }
