@@ -66,6 +66,12 @@ export interface CupType {
    * Which attrs can be editor
    */
   editor?: React.ComponentType<{}>;
+
+  /**
+   * Disable Drop Event
+   * @default false
+   */
+  disableDropEvent?: boolean;
 }
 
 type CupMapType = Map<string, CupType>;

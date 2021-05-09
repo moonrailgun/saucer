@@ -1,15 +1,15 @@
 import React from 'react';
 import { useSaucerSelector } from '@saucerjs/core';
-import { renderChildren } from '../render/renderChildren';
+import {
+  renderChildren,
+  RenderChildrenOptions,
+} from '../render/renderChildren';
 
 /**
  * Common Render AST Children
  */
-interface UseRenderChildrenOptions {
-  hasWrapper: boolean;
-}
-export function useRenderChildren(options: UseRenderChildrenOptions) {
+export function useRenderChildren(options: RenderChildrenOptions) {
   const ast = useSaucerSelector((state) => state.ast);
 
-  return <>{renderChildren(ast.children, '', options.hasWrapper)}</>;
+  return <>{renderChildren(ast.children, '', options)}</>;
 }

@@ -34,10 +34,13 @@ const ChildrenContextBuilder: React.FC<{
 });
 ChildrenContextBuilder.displayName = 'ChildrenContextBuilder';
 
+export interface RenderChildrenOptions {
+  hasWrapper: boolean;
+}
 export function renderChildren(
   children: ASTNode[],
   prefixPath = '',
-  hasWrapper = false
+  { hasWrapper = false }: RenderChildrenOptions
 ) {
   return children.map((node, index) => {
     const cup = findCup(node.cupName);
@@ -59,7 +62,7 @@ export function renderChildren(
         // TODO const { setCurrentTeaAttrs } = useCurrentTeaAction();
         // <TeaAttrsContext value={{currentTeaAttrs: node.attrs, }}></TeaAttrsContext>
         <CupRender nodeId={nodeId} node={node} path={path} attrs={node.attrs}>
-          {renderChildren(node.children, path, hasWrapper)}
+          {renderChildren(node.children, path, { hasWrapper })}
         </CupRender>
       );
     } else {
@@ -82,8 +85,14 @@ export function renderChildren(
     );
 
     if (hasWrapper) {
+      const disableDropEvent = cup.disableDropEvent ?? false;
       return (
-        <RenderWrapper key={nodeId} path={path} tea={node}>
+        <RenderWrapper
+          key={nodeId}
+          path={path}
+          tea={node}
+          canDrop={!disableDropEvent}
+        >
           {body}
         </RenderWrapper>
       );
