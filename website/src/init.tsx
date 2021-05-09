@@ -1,4 +1,4 @@
-import { ASTNode, regCup, saucerStoreHelper } from '@saucerjs/core';
+import { ASTNode, regCup } from '@saucerjs/core';
 import { CSSEditor } from '@saucerjs/css-editor';
 import React, { useCallback } from 'react';
 import { Checkbox, Input, InputNumber, Tabs } from 'antd';
@@ -118,26 +118,14 @@ regCup({
   name: 'Tabs',
   displayName: '标签页',
   type: 'container',
+  desc: '多标签页组件',
+  disableDropEvent: true,
   defaultAttrs: () => {
-    const firstNodeId = shortid();
     return {
-      activePanelNodeId: firstNodeId,
-      _panel: [
-        {
-          nodeId: firstNodeId,
-          name: '标签页一',
-          children: [],
-        },
-        {
-          nodeId: shortid(),
-          name: '标签页二',
-          children: [],
-        },
-      ] as CupTabsPanelItem[],
+      activePanelNodeId: shortid(),
     };
   },
-  render: ({ attrs }) => {
-    const panels: CupTabsPanelItem[] = attrs['_panel'] ?? [];
+  render: ({ node, path, attrs, children }) => {
     const { currentTeaAttrs, setCurrentTeaAttrs } = useTeaAttrsContext();
 
     const handleChange = useCallback((activeKey) => {
@@ -146,16 +134,29 @@ regCup({
       });
     }, []);
 
+    if (node.type === 'leaf') {
+      console.error('[Tabs]', 'Expect node type is `container`');
+      return null;
+    }
+
     return (
       <Tabs
         activeKey={currentTeaAttrs['activePanelNodeId']}
         onChange={handleChange}
       >
-        {panels.map((panel) => (
-          <Tabs.TabPane key={panel.nodeId} tab={panel.name || panel.nodeId}>
-            {renderChildren(panel.children ?? [])}
-          </Tabs.TabPane>
-        ))}
+        {renderChildren(
+          node.children.filter((child) => child.cupName === 'TabPanel'),
+          path,
+          { hasWrapper: true }
+        ).map((el: React.ReactNode, i) => {
+          const sub = node.children[i];
+
+          return (
+            <Tabs.TabPane key={sub.id} tab={sub.id}>
+              {el}
+            </Tabs.TabPane>
+          );
+        })}
       </Tabs>
     );
   },
@@ -168,11 +169,26 @@ regCup({
   },
 });
 
-saucerStoreHelper.setAvailableCup([
+regCup({
+  name: 'TabPanel',
+  type: 'container',
+  render: ({ children }) => {
+    console.log('children', children);
+    if (Array.isArray(children) && children.length === 0) {
+      return (
+        <div style={{ padding: 20, textAlign: 'center' }}>请在此处拖入组件</div>
+      );
+    }
+
+    return <div>{children}</div>;
+  },
+});
+
+export const availableCup = [
   'Container',
   'Button',
   'Input',
   'InputNumber',
   'Checkbox',
   'Tabs',
-]);
+];
