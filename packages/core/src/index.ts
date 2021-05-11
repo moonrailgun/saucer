@@ -20,6 +20,7 @@ export { useAST } from './redux/hooks/useAST';
 export {
   isContainerNode,
   traverseUpdateTree,
+  getNodePathById,
   getPrevPath,
   getNextPath,
   getFirstPath,
