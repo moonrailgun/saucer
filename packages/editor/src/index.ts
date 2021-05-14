@@ -5,6 +5,10 @@ export { Viewport } from './Viewport';
 export { TemplateMenu } from './TemplateMenu';
 export { SaucerEditor } from './SaucerEditor';
 export { useTeaAttrsContext } from './context/TeaAttrsContext';
+export {
+  TeaRenderOptionsContext,
+  useTeaRenderOptionsContext,
+} from './context/TeaRenderOptionsContext';
 export { SaucerEditorProvider } from './Provider';
 export { renderChildren } from './render/renderChildren';
 

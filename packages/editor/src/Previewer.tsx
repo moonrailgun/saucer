@@ -1,16 +1,20 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+import { TeaRenderOptionsContext } from './context/TeaRenderOptionsContext';
 import { useRenderChildren } from './hooks/useRenderChildren';
 
 interface PreviewerProps {
   style?: React.CSSProperties;
 }
 export const Previewer: React.FC<PreviewerProps> = React.memo((props) => {
-  const el = useRenderChildren({ hasWrapper: false });
+  const options = useMemo(() => ({ hasWrapper: false }), []);
+  const el = useRenderChildren(options);
 
   return (
-    <div className="saucer-editor-previewer" style={props.style}>
-      {el}
-    </div>
+    <TeaRenderOptionsContext.Provider value={options}>
+      <div className="saucer-editor-previewer" style={props.style}>
+        {el}
+      </div>
+    </TeaRenderOptionsContext.Provider>
   );
 });
 Previewer.displayName = 'Previewer';
