@@ -1,11 +1,19 @@
-import { ASTNode, regCup } from '@saucerjs/core';
+import {
+  ASTNode,
+  getNodePathById,
+  regCup,
+  useAST,
+  useASTDispatchAction,
+  useCurrentTeaId,
+} from '@saucerjs/core';
 import { CSSEditor } from '@saucerjs/css-editor';
-import React, { useCallback } from 'react';
-import { Checkbox, Input, InputNumber, Tabs } from 'antd';
+import React, { useCallback, useState } from 'react';
+import { Button, Checkbox, Divider, Input, InputNumber, Tabs } from 'antd';
 import {
   useTeaAttrsContext,
   TextEditorField,
   renderChildren,
+  useTeaRenderOptionsContext,
 } from '@saucerjs/editor';
 import shortid from 'shortid';
 
@@ -127,6 +135,7 @@ regCup({
   },
   render: ({ node, path, attrs, children }) => {
     const { currentTeaAttrs, setCurrentTeaAttrs } = useTeaAttrsContext();
+    const options = useTeaRenderOptionsContext();
 
     const handleChange = useCallback((activeKey) => {
       setCurrentTeaAttrs({
@@ -147,12 +156,13 @@ regCup({
         {renderChildren(
           node.children.filter((child) => child.cupName === 'TabPanel'),
           path,
-          { hasWrapper: true }
-        ).map((el: React.ReactNode, i) => {
+          options
+        ).map((el: React.ReactNode, i: number) => {
           const sub = node.children[i];
+          const attrs = sub.attrs ?? {};
 
           return (
-            <Tabs.TabPane key={sub.id} tab={sub.id}>
+            <Tabs.TabPane key={sub.id} tab={attrs.name ?? sub.id}>
               {el}
             </Tabs.TabPane>
           );
@@ -161,9 +171,37 @@ regCup({
     );
   },
   editor: () => {
+    const [newTabName, setNewTabName] = useState('');
+    const { dispatchAppendChildren } = useASTDispatchAction();
+    const currentTeaId = useCurrentTeaId();
+    const ast = useAST();
+
+    const handleAppend = useCallback(() => {
+      if (typeof currentTeaId !== 'string') {
+        console.warn('[Tabs]', 'Cannot get currentTeaId');
+        return;
+      }
+
+      const currentPath = getNodePathById(ast, currentTeaId);
+      if (currentPath === false) {
+        console.warn('[Tabs]', 'Cannot get currentPath');
+        return;
+      }
+      dispatchAppendChildren(currentPath, 'container', shortid(), 'TabPanel', {
+        name: newTabName,
+      });
+    }, [ast, newTabName, currentTeaId, dispatchAppendChildren]);
+
     return (
       <>
         <TextEditorField field="activePanelNodeId" label="当前面板Key" />
+
+        <Divider>新增面板</Divider>
+        <Input
+          value={newTabName}
+          onChange={(e) => setNewTabName(e.target.value)}
+        />
+        <Button onClick={handleAppend}>新增</Button>
       </>
     );
   },
