@@ -61,6 +61,17 @@ export function useCurrentTeaAction() {
         return;
       }
 
+      const hasNonSerializableValue = Object.entries(newAttrs).some(
+        ([key, value]) => {
+          return ['function', 'object', 'symbol'].includes(typeof value);
+        }
+      );
+      if (hasNonSerializableValue) {
+        console.warn(
+          'try to set non-serializable value into attrs, Its maybe cause some problem'
+        );
+      }
+
       dispatch(setNodeAttrs({ nodeId: currentSelectedTeaId, newAttrs }));
     },
     [currentSelectedTeaId]

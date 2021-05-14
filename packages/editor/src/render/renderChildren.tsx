@@ -97,7 +97,7 @@ export function renderChildren(
         </RenderWrapper>
       );
     } else {
-      return <div>{body}</div>;
+      return <div key={nodeId}>{body}</div>;
     }
   });
 }

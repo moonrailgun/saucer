@@ -101,8 +101,8 @@ regCup({
 
     return (
       <Checkbox
-        checked={currentTeaAttrs['select']}
-        onChange={(val) => setCurrentTeaAttrs({ select: val })}
+        checked={currentTeaAttrs['selected']}
+        onChange={(e) => setCurrentTeaAttrs({ selected: e.target.checked })}
       >
         {label}
       </Checkbox>
