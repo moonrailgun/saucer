@@ -231,7 +231,6 @@ regCup({
   name: 'TabPanel',
   type: 'container',
   render: ({ children }) => {
-    console.log('children', children);
     if (Array.isArray(children) && children.length === 0) {
       return (
         <div style={{ padding: 20, textAlign: 'center' }}>请在此处拖入组件</div>
@@ -239,6 +238,13 @@ regCup({
     }
 
     return <div>{children}</div>;
+  },
+  editor: () => {
+    return (
+      <>
+        <TextEditorField field="name" label="当前面板名" />
+      </>
+    );
   },
 });
 
