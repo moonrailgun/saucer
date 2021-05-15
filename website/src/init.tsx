@@ -133,7 +133,7 @@ regCup({
       activePanelNodeId: shortid(),
     };
   },
-  render: ({ node, path, attrs, children }) => {
+  render: ({ node, path }) => {
     const { currentTeaAttrs, setCurrentTeaAttrs } = useTeaAttrsContext();
     const options = useTeaRenderOptionsContext();
 
@@ -148,25 +148,43 @@ regCup({
       return null;
     }
 
+    const tabPanels = node.children.filter(
+      (child) => child.cupName === 'TabPanel'
+    );
+    if (tabPanels.length === 0) {
+      return (
+        <div
+          style={{
+            height: 80,
+            color: '#ccc',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            fontSize: 18,
+          }}
+        >
+          请在设置面板中增加标签页
+        </div>
+      );
+    }
+
     return (
       <Tabs
         activeKey={currentTeaAttrs['activePanelNodeId']}
         onChange={handleChange}
       >
-        {renderChildren(
-          node.children.filter((child) => child.cupName === 'TabPanel'),
-          path,
-          options
-        ).map((el: React.ReactNode, i: number) => {
-          const sub = node.children[i];
-          const attrs = sub.attrs ?? {};
+        {renderChildren(tabPanels, path, options).map(
+          (el: React.ReactNode, i: number) => {
+            const sub = node.children[i];
+            const attrs = sub.attrs ?? {};
 
-          return (
-            <Tabs.TabPane key={sub.id} tab={attrs.name ?? sub.id}>
-              {el}
-            </Tabs.TabPane>
-          );
-        })}
+            return (
+              <Tabs.TabPane key={sub.id} tab={attrs.name ?? sub.id}>
+                {el}
+              </Tabs.TabPane>
+            );
+          }
+        )}
       </Tabs>
     );
   },
@@ -187,6 +205,7 @@ regCup({
         console.warn('[Tabs]', 'Cannot get currentPath');
         return;
       }
+      setNewTabName('');
       dispatchAppendChildren(currentPath, 'container', shortid(), 'TabPanel', {
         name: newTabName,
       });
@@ -198,6 +217,7 @@ regCup({
 
         <Divider>新增面板</Divider>
         <Input
+          placeholder="面板名"
           value={newTabName}
           onChange={(e) => setNewTabName(e.target.value)}
         />
