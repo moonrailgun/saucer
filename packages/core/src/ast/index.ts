@@ -103,10 +103,46 @@ export function findTargetNodeById(
       targetIndex: findIndex,
     };
   } else {
-    // 没找到. 尝试迭代
+    // Not found, try iteration.
     for (const sub of root.children) {
       if (sub.type === 'container') {
         const r = findTargetNodeById(sub, nodeId);
+        if (r !== false) {
+          return r;
+        }
+      }
+    }
+  }
+
+  return false;
+}
+
+/**
+ * Get AST Tree Path by node id
+ */
+export function getNodePathById(
+  root: ASTContainerNode,
+  nodeId: string,
+  currentPathArr: number[] = []
+): string | false {
+  if (typeof nodeId !== 'string') {
+    return false;
+  }
+
+  if (root.type !== 'container') {
+    return false;
+  }
+
+  const findIndex = root.children.findIndex((item) => item.id === nodeId);
+  if (findIndex >= 0) {
+    return [...currentPathArr, findIndex].join('.');
+  } else {
+    // Not found, try iteration.
+    const children = root.children;
+    for (let i = 0; i < children.length; i++) {
+      const sub = children[i];
+      if (sub.type === 'container') {
+        const r = getNodePathById(sub, nodeId, [...currentPathArr, i]);
         if (r !== false) {
           return r;
         }

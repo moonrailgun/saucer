@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
   createDispatchHook,
   createSelectorHook,
@@ -7,7 +7,11 @@ import {
   ReactReduxContextValue,
 } from 'react-redux';
 import { allInitialState, AllType } from '../slice/__all__';
-import { defaultSaucerStore } from '../store';
+import {
+  buildSaucerStore,
+  BuildSaucerStoreOptions,
+  defaultSaucerStore,
+} from '../store';
 
 const SaucerContext = React.createContext<ReactReduxContextValue<AllType>>({
   store: defaultSaucerStore,
@@ -15,13 +19,17 @@ const SaucerContext = React.createContext<ReactReduxContextValue<AllType>>({
 });
 SaucerContext.displayName = 'SaucerContext';
 
-export const SaucerProvider: React.FC = React.memo((props) => {
-  return (
-    <Provider store={defaultSaucerStore} context={SaucerContext}>
-      {props.children}
-    </Provider>
-  );
-});
+export const SaucerProvider: React.FC<BuildSaucerStoreOptions> = React.memo(
+  (props) => {
+    const store = useMemo(() => buildSaucerStore({ ...props }), []);
+
+    return (
+      <Provider store={store} context={SaucerContext}>
+        {props.children}
+      </Provider>
+    );
+  }
+);
 SaucerProvider.displayName = 'SaucerProvider';
 
 export const useSaucerSelector = createSelectorHook<AllType>(SaucerContext);

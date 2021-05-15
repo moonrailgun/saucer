@@ -9,10 +9,11 @@ import { RenderWrapperTools } from './tools';
 interface RenderWrapperProps {
   path: string;
   tea: ASTNode;
+  canDrop?: boolean;
 }
 export const RenderWrapper: React.FC<RenderWrapperProps> = React.memo(
   (props) => {
-    const { path, tea } = props;
+    const { path, tea, canDrop = true } = props;
     const type = tea.type;
     const currentSelectedTeaId = useCurrentTeaId();
     const isSelected = tea.id === currentSelectedTeaId;
@@ -27,6 +28,7 @@ export const RenderWrapper: React.FC<RenderWrapperProps> = React.memo(
     } = useDragAndDrop({
       path,
       tea,
+      canDrop,
     });
 
     const handleClick = useCallback(

@@ -1,9 +1,21 @@
-import { regCup, saucerStoreHelper } from '@saucerjs/core';
+import {
+  ASTNode,
+  getNodePathById,
+  regCup,
+  useAST,
+  useASTDispatchAction,
+  useCurrentTeaId,
+} from '@saucerjs/core';
 import { CSSEditor } from '@saucerjs/css-editor';
-import React from 'react';
-import { Checkbox, Input, InputNumber } from 'antd';
-import { useTeaAttrsContext } from '@saucerjs/editor';
-import { TextEditorField } from '@saucerjs/editor';
+import React, { useCallback, useState } from 'react';
+import { Button, Checkbox, Divider, Input, InputNumber, Tabs } from 'antd';
+import {
+  useTeaAttrsContext,
+  TextEditorField,
+  renderChildren,
+  useTeaRenderOptionsContext,
+} from '@saucerjs/editor';
+import shortid from 'shortid';
 
 regCup({
   name: 'Container',
@@ -89,8 +101,8 @@ regCup({
 
     return (
       <Checkbox
-        checked={currentTeaAttrs['select']}
-        onChange={(val) => setCurrentTeaAttrs({ select: val })}
+        checked={currentTeaAttrs['selected']}
+        onChange={(e) => setCurrentTeaAttrs({ selected: e.target.checked })}
       >
         {label}
       </Checkbox>
@@ -105,10 +117,116 @@ regCup({
   },
 });
 
-saucerStoreHelper.setAvailableCup([
+interface CupTabsPanelItem {
+  nodeId: string;
+  name: string;
+  children: ASTNode[];
+}
+regCup({
+  name: 'Tabs',
+  displayName: '标签页',
+  type: 'container',
+  desc: '多标签页组件',
+  disableDropEvent: true,
+  defaultAttrs: () => {
+    return {
+      activePanelNodeId: shortid(),
+    };
+  },
+  render: ({ node, path, attrs, children }) => {
+    const { currentTeaAttrs, setCurrentTeaAttrs } = useTeaAttrsContext();
+    const options = useTeaRenderOptionsContext();
+
+    const handleChange = useCallback((activeKey) => {
+      setCurrentTeaAttrs({
+        activePanelNodeId: activeKey,
+      });
+    }, []);
+
+    if (node.type === 'leaf') {
+      console.error('[Tabs]', 'Expect node type is `container`');
+      return null;
+    }
+
+    return (
+      <Tabs
+        activeKey={currentTeaAttrs['activePanelNodeId']}
+        onChange={handleChange}
+      >
+        {renderChildren(
+          node.children.filter((child) => child.cupName === 'TabPanel'),
+          path,
+          options
+        ).map((el: React.ReactNode, i: number) => {
+          const sub = node.children[i];
+          const attrs = sub.attrs ?? {};
+
+          return (
+            <Tabs.TabPane key={sub.id} tab={attrs.name ?? sub.id}>
+              {el}
+            </Tabs.TabPane>
+          );
+        })}
+      </Tabs>
+    );
+  },
+  editor: () => {
+    const [newTabName, setNewTabName] = useState('');
+    const { dispatchAppendChildren } = useASTDispatchAction();
+    const currentTeaId = useCurrentTeaId();
+    const ast = useAST();
+
+    const handleAppend = useCallback(() => {
+      if (typeof currentTeaId !== 'string') {
+        console.warn('[Tabs]', 'Cannot get currentTeaId');
+        return;
+      }
+
+      const currentPath = getNodePathById(ast, currentTeaId);
+      if (currentPath === false) {
+        console.warn('[Tabs]', 'Cannot get currentPath');
+        return;
+      }
+      dispatchAppendChildren(currentPath, 'container', shortid(), 'TabPanel', {
+        name: newTabName,
+      });
+    }, [ast, newTabName, currentTeaId, dispatchAppendChildren]);
+
+    return (
+      <>
+        <TextEditorField field="activePanelNodeId" label="当前面板Key" />
+
+        <Divider>新增面板</Divider>
+        <Input
+          value={newTabName}
+          onChange={(e) => setNewTabName(e.target.value)}
+        />
+        <Button onClick={handleAppend}>新增</Button>
+      </>
+    );
+  },
+});
+
+regCup({
+  name: 'TabPanel',
+  type: 'container',
+  render: ({ children }) => {
+    console.log('children', children);
+    if (Array.isArray(children) && children.length === 0) {
+      return (
+        <div style={{ padding: 20, textAlign: 'center' }}>请在此处拖入组件</div>
+      );
+    }
+
+    return <div>{children}</div>;
+  },
+});
+
+export const availableCup = [
   'Container',
   'Button',
   'Input',
   'InputNumber',
   'Checkbox',
-]);
+  'Tabs',
+];

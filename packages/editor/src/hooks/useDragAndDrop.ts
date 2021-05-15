@@ -15,13 +15,14 @@ import type { DragObject } from '../types';
 interface UseDragAndDropProps {
   path: string;
   tea: ASTNode;
+  canDrop: boolean;
 }
 
 /**
  * render wrapper dnd event hooks.
  */
 export function useDragAndDrop(props: UseDragAndDropProps) {
-  const { path, tea } = props;
+  const { path, tea, canDrop } = props;
   const teaType = tea.type;
   const isRoot = path === '';
   const {
@@ -154,6 +155,7 @@ export function useDragAndDrop(props: UseDragAndDropProps) {
       isOverCurrent: monitor.isOver({ shallow: true }),
       dragName: monitor.getItem()?.name,
     }),
+    canDrop: () => canDrop,
   });
 
   const dndRef = isRoot ? dropRef(ref) : dragRef(dropRef(ref));

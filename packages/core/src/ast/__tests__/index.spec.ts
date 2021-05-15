@@ -3,6 +3,7 @@ import {
   findTargetNodeById,
   findTargetNodeByPath,
   getNextPath,
+  getNodePathById,
   isContainerNode,
   moveNodeByPath,
   traverseUpdateTree,
@@ -215,6 +216,53 @@ describe('findTargetNode', () => {
         expect(findRes).toBe(false);
       });
     });
+  });
+});
+
+describe('getNodePathById', () => {
+  const testAST: ASTContainerNode = {
+    id: 'root',
+    type: 'container',
+    attrs,
+    cupName,
+    children: [
+      {
+        id: '2',
+        type: 'container',
+        attrs,
+        cupName,
+        children: [
+          {
+            id: '4',
+            type: 'container',
+            attrs,
+            cupName,
+            children: [],
+          },
+          {
+            id: '5',
+            type: 'leaf',
+            attrs,
+            cupName,
+          },
+        ],
+      },
+      {
+        id: '3',
+        type: 'leaf',
+        attrs,
+        cupName,
+      },
+    ],
+  };
+
+  test.each([
+    ['2', '0'],
+    ['3', '1'],
+    ['4', '0.0'],
+    ['5', '0.1'],
+  ])('%s => %s', (id, expectedPath) => {
+    expect(getNodePathById(testAST, id)).toBe(expectedPath);
   });
 });
 
