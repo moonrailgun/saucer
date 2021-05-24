@@ -117,11 +117,6 @@ regCup({
   },
 });
 
-interface CupTabsPanelItem {
-  nodeId: string;
-  name: string;
-  children: ASTNode[];
-}
 regCup({
   name: 'Tabs',
   displayName: '标签页',
