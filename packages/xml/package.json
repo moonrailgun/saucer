@@ -1,6 +1,6 @@
 {
   "name": "@saucerjs/xml",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "> TODO: description",
   "author": "moonrailgun <moonrailgun@gmail.com>",
   "homepage": "https://github.com/moonrailgun/saucer/tree/master/core#readme",
@@ -32,7 +32,7 @@
   },
   "gitHead": "1b4c673b705b7918619db028bbaae56429f24156",
   "dependencies": {
-    "@saucerjs/core": "^0.1.9",
+    "@saucerjs/core": "^0.1.10",
     "xml-js": "^1.6.11"
   }
 }
