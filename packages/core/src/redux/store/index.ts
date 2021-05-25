@@ -1,7 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import type { ASTContainerNode } from '../../ast/types';
 import { allInitialState, allReducer, AllType } from '../slice/__all__';
-import { SaucerStoreHelper } from './helper';
 import type { SaucerStoreType } from './type';
 
 export interface BuildSaucerStoreOptions {
@@ -31,6 +30,3 @@ export function buildSaucerStore(
 }
 
 export const defaultSaucerStore = buildSaucerStore();
-export const defaultSaucerStoreHelper = new SaucerStoreHelper(
-  defaultSaucerStore
-);

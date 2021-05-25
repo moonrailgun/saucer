@@ -3,10 +3,7 @@ export {
   useSaucerSelector,
   useSaucerDispatch,
 } from './redux/context';
-export {
-  defaultSaucerStoreHelper as saucerStoreHelper,
-  BuildSaucerStoreOptions,
-} from './redux/store';
+export { BuildSaucerStoreOptions } from './redux/store';
 export { useAvailableCupsName } from './redux/hooks/useAvailableCupsName';
 export { regCup, findCup, getAllCup, CupType } from './cups';
 export { useASTDispatchAction } from './redux/hooks/useASTDispatchAction';
