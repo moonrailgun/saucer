@@ -3,12 +3,14 @@ import React from 'react';
 import { useTeaAttrsContext } from '../../context/TeaAttrsContext';
 import { EditorComponentContainer } from './style';
 
-type EditorFieldBuilderFn = (options: {
-  field: string;
-  label: string;
-  currentTeaAttrs: ASTAttrs;
-  setCurrentTeaAttrs: (newAttrs: ASTAttrs) => void;
-}) => React.ReactNode;
+type EditorFieldBuilderFn<T extends Record<string, any>> = (
+  options: {
+    field: string;
+    label: string;
+    currentTeaAttrs: ASTAttrs;
+    setCurrentTeaAttrs: (newAttrs: ASTAttrs) => void;
+  } & T
+) => React.ReactNode;
 
 /**
  * Generate Editor Field Component with function
@@ -16,17 +18,28 @@ type EditorFieldBuilderFn = (options: {
  * @param fn Component Builder Fn
  * @returns A Saucer Editor Field
  */
-export function buildEditorFields(name: string, fn: EditorFieldBuilderFn) {
+
+export function buildEditorFields<T extends Record<string, any> = {}>(
+  name: string,
+  fn: EditorFieldBuilderFn<T>
+) {
   const SaucerEditorField: React.FC<{
     label?: string;
     field: string; // 变更的字段名
+    [key: string]: any;
   }> = React.memo((props) => {
-    const { field, label = '' } = props;
+    const { field, label = '', children, ...custom } = props;
     const { currentTeaAttrs, setCurrentTeaAttrs } = useTeaAttrsContext();
 
     return (
       <EditorComponentContainer label={label}>
-        {fn({ field, label, currentTeaAttrs, setCurrentTeaAttrs })}
+        {fn({
+          ...(custom as T),
+          field,
+          label,
+          currentTeaAttrs,
+          setCurrentTeaAttrs,
+        })}
       </EditorComponentContainer>
     );
   });
