@@ -11,11 +11,28 @@ import React, { useCallback, useState } from 'react';
 import { Button, Checkbox, Divider, Input, InputNumber, Tabs } from 'antd';
 import {
   useTeaAttrsContext,
-  TextEditorField,
   renderChildren,
   useTeaRenderOptionsContext,
+  buildEditorFields,
 } from '@saucerjs/editor';
 import shortid from 'shortid';
+
+const TextEditorField = buildEditorFields(
+  'Input',
+  ({ label, field, currentTeaAttrs, setCurrentTeaAttrs }) => {
+    return (
+      <Input
+        placeholder={label}
+        value={currentTeaAttrs[field]}
+        onChange={(e) =>
+          setCurrentTeaAttrs({
+            [field]: e.target.value,
+          })
+        }
+      />
+    );
+  }
+);
 
 regCup({
   name: 'Container',

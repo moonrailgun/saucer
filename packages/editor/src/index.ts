@@ -11,5 +11,4 @@ export {
 } from './context/TeaRenderOptionsContext';
 export { SaucerEditorProvider } from './Provider';
 export { renderChildren } from './render/renderChildren';
-
-export { TextEditorField } from './components/EditorComponent/TextEditorField';
+export { buildEditorFields } from './components/EditorComponent/buildEditorFields';

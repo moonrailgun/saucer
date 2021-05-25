@@ -7,6 +7,7 @@ interface Props {
 export const EditorComponentContainer: React.FC<Props> = React.memo((props) => {
   return (
     <div
+      className="saucer-editor-component-container"
       style={{
         padding: 8,
         display: 'flex',
