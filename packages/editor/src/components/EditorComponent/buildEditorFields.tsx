@@ -23,18 +23,19 @@ export function buildEditorFields<T extends Record<string, any> = {}>(
   name: string,
   fn: EditorFieldBuilderFn<T>
 ) {
-  const SaucerEditorField: React.FC<{
-    label?: string;
-    field: string; // 变更的字段名
-    [key: string]: any;
-  }> = React.memo((props) => {
+  const SaucerEditorField: React.FC<
+    {
+      label?: string;
+      field: string; // Modified Fields
+    } & T
+  > = React.memo((props) => {
     const { field, label = '', children, ...custom } = props;
     const { currentTeaAttrs, setCurrentTeaAttrs } = useTeaAttrsContext();
 
     return (
       <EditorComponentContainer label={label}>
         {fn({
-          ...(custom as T),
+          ...((custom as any) as T), // TODO: I have not a good idea to create this type
           field,
           label,
           currentTeaAttrs,
